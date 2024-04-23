@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Modify this file to customize your launch splash screen -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="?android:colorBackground" />
+    <!-- Randomly choose between two colors -->
+    <item android:id="@+id/background_item">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/random_background_color" />
+        </shape>
+    </item>
 
     <!-- You can insert your own image assets here -->
-    <!-- <item>
+    <item>
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/launch_image" />
-    </item> -->
+            android:src="@mipmap/ic_launcher" />
+    </item>
+
+    <!-- Animation for fade-in effect -->
+    <item>
+        <animation-list android:id="@+id/anim_loading" android:oneshot="true">
+            <item android:drawable="@android:color/transparent" android:duration="1000" />
+            <item android:drawable="@mipmap/ic_launcher" android:duration="1000" />
+        </animation-list>
+    </item>
 </layer-list>
