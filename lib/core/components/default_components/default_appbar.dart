@@ -32,6 +32,8 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       scrolledUnderElevation: 0,
       automaticallyImplyLeading: false,
+      surfaceTintColor: backgroundColor,
+      shadowColor: backgroundColor,
       leading: addLeadingButton
           ? Padding(
               padding: EdgeInsets.symmetric(
