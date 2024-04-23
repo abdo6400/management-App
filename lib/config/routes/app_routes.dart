@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import '../../core/components/basic_components/main_screen.dart';
+import '../../core/components/basic_screens/main_screen.dart';
 import '../../core/components/map/presentation/screens/map_screen.dart';
 import '../../core/utils/app_strings.dart';
 
