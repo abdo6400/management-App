@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/utils/app_colors.dart';
 import 'widgets_theme/elevated_button_theme.dart';
 import 'widgets_theme/text_theme.dart';
 
@@ -9,6 +10,7 @@ class AppTheme {
         useMaterial3: true,
         brightness: Brightness.light,
         textTheme: AppTextTheme.lightTextTheme,
+       
         elevatedButtonTheme: AppElevatedButtonTheme.elevatedButtonLightTheme);
   }
 
@@ -17,6 +19,7 @@ class AppTheme {
         useMaterial3: true,
         brightness: Brightness.dark,
         textTheme: AppTextTheme.darkTextTheme,
+       
         elevatedButtonTheme: AppElevatedButtonTheme.elevatedButtonDarkTheme);
   }
 }

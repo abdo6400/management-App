@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 //ff refers to opacity 100%
 class AppColors {
   //* main colors
-  static const Color primary = Color(0xffB3C8CF);
+  static const Color primary = Color.fromARGB(255, 17, 92, 117);
   static const Color secondery = Color(0xffBED7DC);
   static const Color darkGrey = Color(0xff525252);
   static const Color grey = Color(0xff999999);
