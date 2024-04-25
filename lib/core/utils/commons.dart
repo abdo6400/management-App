@@ -1,14 +1,9 @@
 import 'dart:io';
-
 import 'package:baraneq/config/locale/app_localizations.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:loading_indicator/loading_indicator.dart';
-import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http_parser/http_parser.dart';
@@ -16,10 +11,8 @@ import '../../app/service_locator.dart';
 import '../../config/database/cache/cache_consumer.dart';
 import '../../config/database/error/exceptions.dart';
 import '../components/default_components/default_button.dart';
-import '../components/default_components/default_dialogs.dart';
 import 'app_colors.dart';
 import 'app_enums.dart';
-import 'app_strings.dart';
 import 'app_values.dart';
 
 //open url
@@ -79,45 +72,6 @@ Future<XFile?> pickvideo(ImageSource source) async {
   }
 }
 
-// show Picke Image Dialog
-extension ShowPickeImageDialog on BuildContext {
-  Future<XFile?> showPickeImageDialog() async {
-    XFile? image;
-    await showDialog(
-        context: this,
-        builder: ((context) => ImagePickerDialog(
-              cameraOnTap: () async {
-                image = await pickImage(ImageSource.camera);
-                Navigator.pop(this, true);
-              },
-              galleryOnTap: () async {
-                image = await pickImage(ImageSource.gallery);
-                Navigator.pop(this, true);
-              },
-            )));
-    return image;
-  }
-}
-
-// show Picke video Dialog
-extension ShowPickeVideoDialog on BuildContext {
-  Future<XFile?> showPickeVideoDialog() async {
-    XFile? video;
-    await showDialog(
-        context: this,
-        builder: ((context) => ImagePickerDialog(
-              cameraOnTap: () async {
-                video = await pickvideo(ImageSource.camera);
-                Navigator.pop(this, true);
-              },
-              galleryOnTap: () async {
-                video = await pickvideo(ImageSource.gallery);
-                Navigator.pop(this, true);
-              },
-            )));
-    return video;
-  }
-}
 
 extension NavigateTo on BuildContext {
   void navigateTo({
@@ -149,82 +103,6 @@ extension NavigateAndFinishAll on BuildContext {
   }
 }
 
-//* Loaders
-extension ShowLoader on BuildContext {
-  void showLoader({String? message}) {
-    Loader.show(this,
-        progressIndicator: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const CircleAvatar(
-                backgroundColor: Colors.transparent,
-                child: LoadingIndicator(
-                  indicatorType: Indicator.ballRotate,
-                  colors: [
-                    AppColors.white,
-                    AppColors.primary,
-                    AppColors.white,
-                    AppColors.primary,
-                  ],
-                  strokeWidth: 2,
-                  backgroundColor: Colors.transparent,
-                  pathBackgroundColor: Colors.transparent,
-                ),
-              ),
-              if (message != null) Text(message.tr(this))
-            ],
-          ),
-        ));
-  }
-}
-
-extension HideLoader on BuildContext {
-  void hideLoader() {
-    if (Loader.isShown) {
-      Loader.hide();
-    }
-  }
-}
-
-extension ShowSuccessDialogToast on BuildContext {
-  Future<void> showSuccessDialogToast(
-      {String? message,
-      String? title,
-      dynamic Function()? function,
-      required Duration duration,
-      String? icon}) async {
-    await showDialog(
-        context: this,
-        useRootNavigator: false,
-        barrierDismissible: false,
-        builder: (BuildContext context) => PopScope(
-              canPop: false,
-              child: CustomAlertDialog(
-                  icon: icon != null
-                      ? Lottie.asset(icon, height: AppValues.sizeHeight * 120)
-                      : null,
-                  title: title,
-                  content: message,
-                  type: AlertDialogType.success),
-            )).timeout(duration, onTimeout: () => Navigator.pop(this, true));
-  }
-}
-
-extension ShowInfoDialog on BuildContext {
-  void showInfoDialog(String message, AlertDialogType type,
-      {dynamic Function()? function}) async {
-    showDialog(
-        context: this,
-        builder: (BuildContext context) => CustomAlertDialog(
-            content: message,
-            buttonLabel: AppStrings.cancel,
-            type: type,
-            function: function));
-  }
-}
 
 extension ShowMultiSelect on BuildContext {
   void showMultiSelect({
@@ -272,36 +150,6 @@ extension ShowMultiSelect on BuildContext {
                 children: buildPositionChips(),
               ));
         }));
-  }
-}
-
-extension ShowToastMsg on BuildContext {
-  Future<void> showToastMsg(
-      {required String msg, required ToastStates toastState}) async {
-    Color color, textColor;
-    switch (toastState) {
-      case ToastStates.success:
-        color = AppColors.primary;
-        textColor = AppColors.white;
-        break;
-      case ToastStates.warning:
-        color = AppColors.white;
-        textColor = AppColors.blueDarK;
-        break;
-      case ToastStates.error:
-        color = Colors.red;
-        textColor = AppColors.white;
-        break;
-    }
-    await Fluttertoast.showToast(
-      msg: AppLocalizations.of(this)!.translate(msg) ?? msg,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 5,
-      backgroundColor: color,
-      textColor: textColor,
-      fontSize: AppValues.font * 16,
-    );
   }
 }
 
@@ -371,32 +219,6 @@ extension ShowBottomSheet on BuildContext {
       },
     );
   }
-}
-
-void showLoginDialog(BuildContext context, String message) {
-  showDialog(
-      context: context,
-      builder: (BuildContext context) => CustomAlertDialog(
-            title: message,
-            content: message,
-            buttonLabel: AppStrings.ok.tr(context),
-            function: () {
-              Navigator.of(context).popUntil((route) => route.isFirst);
-            },
-            type: AlertDialogType.success,
-          ));
-}
-
-Future<void> showLogoutDialog(BuildContext context) async {
-  return showDialog(
-      context: context,
-      builder: (BuildContext context) => ConfirmationDialog(
-          alertMsg: 'Logout',
-          onTapConfirm: () {
-            sl<CacheConsumer>().clearData();
-            // showToastMsg(msg: 'LogOut', toastState: ToastStates.success);
-            // context.navigateAndFinish(screenRoute: screenRoute)
-          }));
 }
 
 Future<XFile> downloadAndSaveImage(String imageUrl) async {

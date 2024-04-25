@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../core/components/basic_screens/main_screen.dart';
-import '../../core/components/map/presentation/screens/map_screen.dart';
 import '../../core/utils/app_strings.dart';
 
 class Routes {
@@ -36,11 +35,6 @@ class AppRoutes {
             type: PageTransitionType.fade,
             settings: routeSettings);
 
-      case Routes.mapRoute:
-        return PageTransition(
-            child: const MapScreen(),
-            type: PageTransitionType.leftToRightWithFade,
-            settings: routeSettings);
 
       default:
         return undefinedRoute();

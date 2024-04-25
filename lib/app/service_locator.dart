@@ -9,8 +9,8 @@ import '../config/database/api/dio_consumer.dart';
 import '../config/database/cache/cache_consumer.dart';
 import '../config/database/cache/secure_cache_helper.dart';
 import '../config/database/network/netwok_info.dart';
-import '../core/components/map/presentation/cubit/map_cubit.dart';
-import '../core/utils/google_mpas_tools.dart';
+
+//import '../core/utils/google_mpas_tools.dart';
 import '/core/bloc/global_cubit/locale_cubit.dart';
 import '/core/bloc/global_cubit/theme_cubit.dart';
 
@@ -30,7 +30,6 @@ Future<void> serviceLocatorInit() async {
   sl.registerLazySingleton(() => Dio());
   sl.registerLazySingleton<LocaleCubit>(() => LocaleCubit());
   sl.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
-  sl.registerLazySingleton<MapCubit>(() => MapCubit());
   sl.registerLazySingleton<ApiConsumer>(
       () => DioConsumer(client: sl(), networkInfo: sl()));
   sl.registerLazySingleton(() => LogInterceptor(
@@ -44,7 +43,7 @@ Future<void> serviceLocatorInit() async {
         client: sl(),
       ));
   //google maps tools
-  sl.registerLazySingleton(() => GoogleMapsTools());
+ // sl.registerLazySingleton(() => GoogleMapsTools());
 }
 
 Future<void> _authInit() async {

@@ -1,4 +1,4 @@
-import 'package:baraneq/core/utils/app_enums.dart';
+/*import 'package:baraneq/core/utils/app_enums.dart';
 import 'package:dartz/dartz.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -11,7 +11,7 @@ import '../../config/database/error/failures.dart';
 import 'custom_print.dart';
 
 class GoogleMapsTools {
-//* * * * * * * * Google Maps Tools * * * * * * * * * * * *
+//* * * * * * * * Google Maps Tools * * * * * * * * * * * *//
 
 //camera init value for Google Maps.
   CameraPosition appInitialCameraPosition = const CameraPosition(
@@ -103,3 +103,4 @@ class GoogleMapsTools {
     }
   }
 }
+*/

@@ -1,4 +1,4 @@
-import 'package:baraneq/config/locale/app_localizations.dart';
+
 import 'package:baraneq/core/components/default_components/default_appbar.dart';
 import 'package:baraneq/core/utils/app_strings.dart';
 import 'package:baraneq/core/utils/app_values.dart';

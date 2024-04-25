@@ -1,7 +1,9 @@
 import 'package:baraneq/core/utils/app_values.dart';
-import 'package:baraneq/features/home/presentation/components/balance_component.dart';
 import 'package:flutter/material.dart';
+import '../components/balance_component.dart';
 import '../components/custom_tab_bar_component.dart';
+import 'exporters_screen.dart';
+import 'importers_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -19,33 +21,30 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(
                   height: AppValues.sizeHeight * 10,
                 ),
-                const Expanded(flex: 2, child: BalanceComponents()),
+                const Expanded(
+                  flex: 2,
+                  child: BalanceComponents(),
+                ),
                 const Divider(),
-                const Expanded(flex: 2, child: CustomTabBarComponent()),
+                const Expanded(
+                  flex: 2,
+                  child: CustomTabBarComponent(),
+                ),
                 Expanded(
-                    flex: 10,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          top: AppValues.paddingHeight * 10,
-                          right: AppValues.paddingWidth * 10,
-                          left: AppValues.paddingWidth * 10),
-                      child: TabBarView(
-                        children: [
-                          ListView.builder(
-                            itemBuilder: (context, index) => SizedBox(
-                                height: AppValues.sizeHeight * 100,
-                                child: const Card(
-                                  color: Colors.amber,
-                                )),
-                            itemCount: 10,
-                          ),
-                          ListView.builder(
-                            itemBuilder: (context, index) => const Card(),
-                            itemCount: 5,
-                          )
-                        ],
-                      ),
-                    ))
+                  flex: 10,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        top: AppValues.paddingHeight * 5,
+                        right: AppValues.paddingWidth * 5,
+                        left: AppValues.paddingWidth * 5),
+                    child: const TabBarView(
+                      children: [
+                        ImportersScreen(),
+                        ExportersScreen(),
+                      ],
+                    ),
+                  ),
+                )
               ],
             ),
           )),
