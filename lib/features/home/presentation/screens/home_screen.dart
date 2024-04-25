@@ -1,11 +1,7 @@
-import 'package:baraneq/core/utils/app_colors.dart';
-import 'package:baraneq/core/utils/app_images.dart';
-import 'package:baraneq/core/utils/app_strings.dart';
 import 'package:baraneq/core/utils/app_values.dart';
 import 'package:baraneq/features/home/presentation/components/balance_component.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import '../components/custom_tab_bar_component.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -24,40 +20,8 @@ class HomeScreen extends StatelessWidget {
                   height: AppValues.sizeHeight * 10,
                 ),
                 const Expanded(flex: 2, child: BalanceComponents()),
-                Container(
-                    margin: EdgeInsets.symmetric(
-                        horizontal: AppValues.marginWidth * 10),
-                    child: ListTile(
-                      title: Text(
-                        "Client Type",
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      leading: GestureDetector(
-                          onTap: () {}, child: Icon(Icons.add_circle)),
-                    )),
-                Divider(),
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(
-                    width: AppValues.screenWidth,
-                    child: Container(
-                        margin: EdgeInsets.symmetric(
-                            horizontal: AppValues.marginWidth * 10),
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(AppValues.radius * 10)),
-                        child: TabBar(
-                          tabs: [
-                            Tab(
-                              text: "importer",
-                            ),
-                            Tab(
-                              text: "exporter",
-                            ),
-                          ],
-                        )),
-                  ),
-                ),
+                const Divider(),
+                const Expanded(flex: 2, child: CustomTabBarComponent()),
                 Expanded(
                     flex: 10,
                     child: Padding(

@@ -49,7 +49,6 @@ class MainScreen extends StatelessWidget {
     return PersistentTabView(
       controller: controller,
       context,
-      
       screens: List<Widget>.from(_screens.map((e) => SafeArea(
             child: Scaffold(
               appBar: DefaultAppBar(
@@ -64,13 +63,12 @@ class MainScreen extends StatelessWidget {
           ))),
       items: _screens
           .map((e) => PersistentBottomNavBarItem(
-                icon: Icon(e["icon"]),
-                activeColorSecondary: AppColors.primary,
-                activeColorPrimary: AppColors.white,
-                inactiveColorSecondary: AppColors.grey,
-                inactiveColorPrimary: AppColors.grey,
-                iconSize: AppValues.font*30
-              ))
+              icon: Icon(e["icon"]),
+              activeColorSecondary: AppColors.primary,
+              activeColorPrimary: AppColors.white,
+              inactiveColorSecondary: AppColors.grey,
+              inactiveColorPrimary: AppColors.grey,
+              iconSize: AppValues.font * 30))
           .toList(),
       confineInSafeArea: true,
       backgroundColor: AppColors.white, // Default is Colors.white.

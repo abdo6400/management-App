@@ -54,4 +54,8 @@ class AppStrings {
   static const toDate = "toDate";
   static const pleaseEnterValidDate = "pleaseEnterValidDate";
   static const balance = "balance";
+  static const importer = "importer";
+  static const exporter = "exporter";
+  static const clientType = "clientType";
+  static const kilo = "kilo";
 }

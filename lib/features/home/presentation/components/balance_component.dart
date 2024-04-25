@@ -1,3 +1,4 @@
+import 'package:baraneq/config/locale/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/utils/app_colors.dart';
@@ -25,23 +26,22 @@ class BalanceComponents extends StatelessWidget {
         child: ListTile(
             leading: Image.asset(AppImages.appLogo),
             title: Text(
-              AppStrings.balance,
+              AppStrings.balance.tr(context),
               style: Theme.of(context)
                   .textTheme
                   .titleLarge!
                   .copyWith(color: AppColors.white),
             ),
             trailing: RichText(
-              textDirection: TextDirection.ltr,
               text: TextSpan(
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge!
                       .copyWith(color: AppColors.white),
                   children: [
-                    TextSpan(text: "15000"),
-                    TextSpan(text: " "),
-                    TextSpan(text: "Kilo"),
+                    const TextSpan(text: "15000"),
+                    const TextSpan(text: " "),
+                    TextSpan(text: AppStrings.kilo.tr(context)),
                   ]),
             )),
       ),
