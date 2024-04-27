@@ -1,8 +1,6 @@
 import 'package:accordion/accordion.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/utils/app_colors.dart';
-
 class ImportersScreen extends StatelessWidget {
   const ImportersScreen({super.key});
   static const headerStyle = TextStyle(
@@ -11,7 +9,7 @@ class ImportersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Accordion(
       openAndCloseAnimation: true,
-      headerBackgroundColor: AppColors.primary,
+      headerBackgroundColor: Theme.of(context).primaryColor,
       maxOpenSections: 1,
       initialOpeningSequenceDelay: 1,
       children: [

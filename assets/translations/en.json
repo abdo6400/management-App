@@ -27,6 +27,7 @@
     "lowercase": "lowercase",
     "uppercase": "uppercase",
     "length": "length",
+    "loading": "please wait until finish",
     ".....................":"..........................",
     "onboarding1": "onboarding1",
     "onboardingSub1": "onboardingSub1",
@@ -52,5 +53,7 @@
     "importer": "importer",
     "exporter": "exporter",
     "clientType": "clientType",
-    "kilo":"Kilo"
+    "kilo":"Kilo",
+    "add":"Add",
+    "newClientAdded":"New client has been added"
 }

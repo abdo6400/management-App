@@ -2,28 +2,36 @@ import 'app_strings.dart';
 
 class CustomValidationHandler {
   // phone number
-  static String? isValidPhoneNumber(String phoneNumber) {
-    // Remove any non-digit characters from the phone number
-    String digitsOnly = phoneNumber.replaceAll(RegExp(r'\D'), '');
-
-    // Check if the phone number consists of all numbers and has a length of 11 digits
-    if (digitsOnly.length == 11 && int.tryParse(digitsOnly) != null) {
-      return null;
-    } else {
+  static String? isValidPhoneNumber(String? phoneNumber) {
+    if (phoneNumber == null) {
       return AppStrings.pleaseEnterVaildPhoneNumber;
+    } else {
+      // Remove any non-digit characters from the phone number
+      String digitsOnly = phoneNumber.replaceAll(RegExp(r'\D'), '');
+
+      // Check if the phone number consists of all numbers and has a length of 11 digits
+      if (digitsOnly.length == 11 && int.tryParse(digitsOnly) != null) {
+        return null;
+      } else {
+        return AppStrings.pleaseEnterVaildPhoneNumber;
+      }
     }
   }
 
 //name
-  static String? isValidName(String name) {
-    // Regular expression pattern for validating the name
-    final RegExp nameRegex = RegExp(r"^[A-Za-z]+(?:[-' ][A-Za-z]+)*$");
-
-    // Check if the name matches the pattern
-    if (nameRegex.hasMatch(name)) {
-      return null;
-    } else {
+  static String? isValidName(String? name) {
+    if (name == null) {
       return AppStrings.pleaseEnterVaildName;
+    } else {
+      // Regular expression pattern for validating the name
+      final RegExp nameRegex = RegExp(r"^[A-Za-z]+(?:[-' ][A-Za-z]+)*$");
+
+      // Check if the name matches the pattern
+      if (nameRegex.hasMatch(name)) {
+        return null;
+      } else {
+        return AppStrings.pleaseEnterVaildName;
+      }
     }
   }
 

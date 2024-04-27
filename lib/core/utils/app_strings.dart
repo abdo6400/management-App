@@ -30,7 +30,7 @@ class AppStrings {
   static const lowercase = "lowercase";
   static const uppercase = "uppercase";
   static const length = "length";
-
+  static const loading = "loading";
   //app Strings
   static const onboarding1 = "onboarding1";
   static const onboardingSub1 = "onboardingSub1";
@@ -58,4 +58,8 @@ class AppStrings {
   static const exporter = "exporter";
   static const clientType = "clientType";
   static const kilo = "kilo";
+
+  static const add = "add";
+
+  static const newClientAdded = "newClientAdded";
 }

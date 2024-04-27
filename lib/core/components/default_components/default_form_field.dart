@@ -73,18 +73,22 @@ class DefaultTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         prefixIconColor: AppColors.black,
         enabledBorder: UnderlineInputBorder(
+          borderRadius: BorderRadius.circular(radius!),
           borderSide:
               BorderSide(color: color != null ? color! : AppColors.lightGrey),
         ),
         contentPadding: contentPadding,
-        errorBorder: const UnderlineInputBorder(
+        errorBorder: UnderlineInputBorder(
+          borderRadius: BorderRadius.circular(radius!),
           borderSide: BorderSide(color: AppColors.error),
         ),
         focusedBorder: UnderlineInputBorder(
+          borderRadius: BorderRadius.circular(radius!),
           borderSide:
               BorderSide(color: color != null ? color! : AppColors.primary),
         ),
         border: UnderlineInputBorder(
+          borderRadius: BorderRadius.circular(radius!),
           borderSide:
               BorderSide(color: color != null ? color! : AppColors.lightGrey),
         ),

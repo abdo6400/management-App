@@ -1,7 +1,9 @@
+import 'package:baraneq/features/client/presentation/bloc/client_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import '../config/locale/app_localizations_setup.dart';
 import '../config/routes/app_routes.dart';
 import '../config/themes/app_theme.dart';
@@ -25,7 +27,7 @@ class UserApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => sl<LocaleCubit>()..getSavedLang()),
           BlocProvider(create: (context) => sl<ThemeCubit>()..getThemeMode()),
-          
+          BlocProvider(create: (context) => sl<ClientBloc>()),
         ],
         child: BlocBuilder<ThemeCubit, ThemeState>(
           builder: (context, mode) {
@@ -33,27 +35,30 @@ class UserApp extends StatelessWidget {
                 buildWhen: (previousState, currentState) {
               return previousState != currentState;
             }, builder: (context, state) {
-              return ScreenUtilInit(
-                  designSize: const Size(428, 926),
-                  minTextAdapt: true,
-                  splitScreenMode: true,
-                  builder: (context, _) {
-                    return MaterialApp(
-                      title: AppStrings.appName,
-                      debugShowCheckedModeBanner: false,
-                      themeMode: mode.themeMode,
-                      theme: AppTheme.getApplicationLightTheme(),
-                      darkTheme: AppTheme.getApplicationDarkTheme(),
-                      navigatorKey: UserApp.navigatorKey,
-                      onGenerateRoute: AppRoutes.onGenerateRoute,
-                      locale: state.locale,
-                      supportedLocales: AppLocalizationsSetup.supportedLocales,
-                      localeResolutionCallback:
-                          AppLocalizationsSetup.localeResolutionCallback,
-                      localizationsDelegates:
-                          AppLocalizationsSetup.localizationsDelegates,
-                    );
-                  });
+              return GlobalLoaderOverlay(
+                child: ScreenUtilInit(
+                    designSize: const Size(428, 926),
+                    minTextAdapt: true,
+                    splitScreenMode: true,
+                    builder: (context, _) {
+                      return MaterialApp(
+                        title: AppStrings.appName,
+                        debugShowCheckedModeBanner: false,
+                        themeMode: mode.themeMode,
+                        theme: AppTheme.getApplicationLightTheme(),
+                        darkTheme: AppTheme.getApplicationDarkTheme(),
+                        navigatorKey: UserApp.navigatorKey,
+                        onGenerateRoute: AppRoutes.onGenerateRoute,
+                        locale: state.locale,
+                        supportedLocales:
+                            AppLocalizationsSetup.supportedLocales,
+                        localeResolutionCallback:
+                            AppLocalizationsSetup.localeResolutionCallback,
+                        localizationsDelegates:
+                            AppLocalizationsSetup.localizationsDelegates,
+                      );
+                    }),
+              );
             });
           },
         ));
