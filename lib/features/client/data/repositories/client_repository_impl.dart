@@ -16,7 +16,7 @@ class CLientRepositoryImpl extends ClientRepository {
   @override
   Future<Either<Failure, bool>> addClient({required Client client}) async {
     try {
-      return Right(await _dataSource.addClient(clientModel: client));
+      return Right(await _dataSource.addClient(client: client));
     } on CacheException catch (e) {
       return Left(CacheFailure(errorMessage: e.message));
     }

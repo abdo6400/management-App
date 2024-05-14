@@ -1,36 +1,19 @@
 import 'package:hive/hive.dart';
 
+part 'client.g.dart';
 @HiveType(typeId: 0)
 class Client {
   @HiveField(0)
+  String id;
+  @HiveField(1)
   String name;
 
-  @HiveField(1)
+  @HiveField(2)
   String phone;
 
-  @HiveField(2)
-  String ClientType;
-
-  Client({required this.phone, required this.name, required this.ClientType});
-}
-
-@HiveType(typeId: 1)
-class Quantity {
-  @HiveField(0)
-  String clientId;
-
-  @HiveField(1)
-  double quantity;
-
-  @HiveField(2)
-  DateTime date;
-
   @HiveField(3)
-  String type;
+  String clientType;
 
-  Quantity(
-      {required this.quantity,
-      required this.date,
-      required this.type,
-      required this.clientId});
+  Client({required this.id, required this.phone, required this.name, required this.clientType});
 }
+

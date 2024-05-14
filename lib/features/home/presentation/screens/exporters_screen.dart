@@ -1,7 +1,12 @@
 import 'package:accordion/accordion.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
+import '../../../../config/database/local/hive_local_database.dart';
+import '../../../../core/models/client.dart';
 import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/app_strings.dart';
+import '../../../../core/utils/app_values.dart';
 
 class ExportersScreen extends StatelessWidget {
   const ExportersScreen({super.key});
@@ -9,25 +14,37 @@ class ExportersScreen extends StatelessWidget {
       color: Color(0xffffffff), fontSize: 18, fontWeight: FontWeight.bold);
   @override
   Widget build(BuildContext context) {
-    return Accordion(
-      openAndCloseAnimation: true,
-      headerBackgroundColor: AppColors.primary,
-      maxOpenSections: 1,
-      initialOpeningSequenceDelay: 1,
-      children: [
-        AccordionSection(
-          header: const Text('DataTable', style: headerStyle),
-          content: const MyDataTable(),
-        ),
-        AccordionSection(
-          header: const Text('DataTable', style: headerStyle),
-          content: const MyDataTable(),
-        ),
-        AccordionSection(
-          header: const Text('DataTable', style: headerStyle),
-          content: const MyDataTable(),
-        )
-      ],
+    return ValueListenableBuilder<Box<Client>>(
+      valueListenable: HiveLocalDatabase().getClients(),
+      builder: (context, snapshot, _) {
+        return Accordion(
+          openAndCloseAnimation: true,
+          headerBackgroundColor: Theme.of(context).primaryColor,
+          maxOpenSections: 1,
+          initialOpeningSequenceDelay: 1,
+          children: snapshot.values
+              .where((element) =>
+                  element.clientType.compareTo(
+                      AppStrings.exporter.toUpperCase()) ==
+                  0)
+              .map(
+                (e) => AccordionSection(
+                  header: Text(e.name,
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: AppColors.white,
+                          fontSize: AppValues.font * 18)),
+                  content: const MyDataTable(),
+                  leftIcon: CircleAvatar(
+                    child: Text(e.name.characters.first),
+                  ),
+                  headerPadding: EdgeInsets.symmetric(
+                      horizontal: AppValues.paddingWidth * 10,
+                      vertical: AppValues.paddingHeight * 10),
+                ),
+              )
+              .toList(),
+        );
+      },
     );
   }
 }

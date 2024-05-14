@@ -23,6 +23,7 @@ class CustomValidationHandler {
     if (name == null) {
       return AppStrings.pleaseEnterVaildName;
     } else {
+      return null;
       // Regular expression pattern for validating the name
       final RegExp nameRegex = RegExp(r"^[A-Za-z]+(?:[-' ][A-Za-z]+)*$");
 

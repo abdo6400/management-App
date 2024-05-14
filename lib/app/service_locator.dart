@@ -12,7 +12,6 @@ import '../config/database/api/dio_consumer.dart';
 import '../config/database/cache/cache_consumer.dart';
 import '../config/database/cache/secure_cache_helper.dart';
 import '../config/database/local/hive_local_database.dart';
-import '../config/database/local/local_consumer.dart';
 import '../config/database/network/netwok_info.dart';
 
 //import '../core/utils/google_mpas_tools.dart';
@@ -39,7 +38,7 @@ Future<void> serviceLocatorInit() async {
   sl.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
   sl.registerLazySingleton<ApiConsumer>(
       () => DioConsumer(client: sl(), networkInfo: sl()));
-  sl.registerLazySingleton<LocalConsumer>(() => HiveLocalDatabase());
+  sl.registerLazySingleton<HiveLocalDatabase>(() => HiveLocalDatabase());
   sl.registerLazySingleton(() => LogInterceptor(
       responseBody: true,
       error: true,
@@ -65,7 +64,7 @@ Future<void> _app() async {
       () => CLientRepositoryImpl(dataSource: sl()));
   //! Data sources
   sl.registerLazySingleton<ClientLocalDataSource>(
-      () => ClientLocalDataSourceImpl(localConsumer: sl()));
+      () => ClientLocalDataSourceImpl(localConsumer: sl(),apiConsumer: sl()));
 }
 
 Future<void> _authInit() async {

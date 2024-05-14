@@ -58,8 +58,6 @@ class AppStrings {
   static const exporter = "exporter";
   static const clientType = "clientType";
   static const kilo = "kilo";
-
   static const add = "add";
-
   static const newClientAdded = "newClientAdded";
 }

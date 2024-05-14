@@ -1,19 +1,22 @@
-import 'package:baraneq/config/database/local/local_consumer.dart';
-
+import '../../../../config/database/api/api_consumer.dart';
+import '../../../../config/database/local/hive_local_database.dart';
 import '../../../../core/models/client.dart';
 
 abstract class ClientLocalDataSource {
-  Future<bool> addClient({required Client clientModel});
+  Future<bool> addClient({required Client client});
 }
 
 class ClientLocalDataSourceImpl extends ClientLocalDataSource {
-  final LocalConsumer _localConsumer;
+  final HiveLocalDatabase _localConsumer;
+  final ApiConsumer _apiConsumer;
+  ClientLocalDataSourceImpl(
+      {required HiveLocalDatabase localConsumer,
+      required ApiConsumer apiConsumer})
+      : _localConsumer = localConsumer,
+        _apiConsumer = apiConsumer;
 
-  ClientLocalDataSourceImpl({required LocalConsumer localConsumer})
-      : _localConsumer = localConsumer;
   @override
-  Future<bool> addClient({required Client clientModel}) async {
-    await Future.delayed(Duration(seconds: 2));
-    return Future.value(true);
+  Future<bool> addClient({required Client client}) async {
+    return await _localConsumer.addClient(client: client);
   }
 }

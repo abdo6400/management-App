@@ -1,51 +1,68 @@
 import 'package:accordion/accordion.dart';
+import 'package:baraneq/core/utils/app_colors.dart';
+import 'package:baraneq/core/utils/app_values.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+
+import '../../../../config/database/local/hive_local_database.dart';
+import '../../../../core/models/client.dart';
+import '../../../../core/utils/app_strings.dart';
 
 class ImportersScreen extends StatelessWidget {
   const ImportersScreen({super.key});
-  static const headerStyle = TextStyle(
-      color: Color(0xffffffff), fontSize: 18, fontWeight: FontWeight.bold);
+
   @override
   Widget build(BuildContext context) {
-    return Accordion(
-      openAndCloseAnimation: true,
-      headerBackgroundColor: Theme.of(context).primaryColor,
-      maxOpenSections: 1,
-      initialOpeningSequenceDelay: 1,
-      children: [
-        AccordionSection(
-          header: const Text('DataTable', style: headerStyle),
-          content: const MyDataTable(),
-        ),
-        AccordionSection(
-          header: const Text('DataTable', style: headerStyle),
-          content: const MyDataTable(),
-        ),
-        AccordionSection(
-          header: const Text('DataTable', style: headerStyle),
-          content: const MyDataTable(),
-        )
-      ],
+    return ValueListenableBuilder<Box<Client>>(
+      valueListenable: HiveLocalDatabase().getClients(),
+      builder: (context, snapshot, _) {
+        return Accordion(
+          openAndCloseAnimation: true,
+          headerBackgroundColor: Theme.of(context).primaryColor,
+          maxOpenSections: 1,
+          initialOpeningSequenceDelay: 1,
+          children: snapshot.values
+              .where((element) =>
+                  element.clientType.compareTo(
+                      AppStrings.importer.toUpperCase()) ==
+                  0)
+              .map(
+                (e) => AccordionSection(
+                  header: Text(e.name,
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: AppColors.white,
+                          fontSize: AppValues.font * 18)),
+                  content: const MyDataTable(),
+                  leftIcon: CircleAvatar(
+                    child: Text(e.name.characters.first),
+                  ),
+                  headerPadding: EdgeInsets.symmetric(
+                      horizontal: AppValues.paddingWidth * 10,
+                      vertical: AppValues.paddingHeight * 10),
+                ),
+              )
+              .toList(),
+        );
+      },
     );
   }
 }
 
-class MyDataTable extends StatelessWidget //__
-{
+class MyDataTable extends StatelessWidget {
   const MyDataTable({super.key});
   static const contentStyleHeader = TextStyle(
       color: Color(0xff999999), fontSize: 14, fontWeight: FontWeight.w700);
   static const contentStyle = TextStyle(
       color: Color(0xff999999), fontSize: 14, fontWeight: FontWeight.normal);
   @override
-  Widget build(context) //__
-  {
+  Widget build(context) {
     return DataTable(
       sortAscending: true,
       sortColumnIndex: 1,
       showBottomBorder: false,
       columns: const [
-        DataColumn(label: Text('ID', style: contentStyleHeader), numeric: true),
+        DataColumn(
+            label: Text('time', style: contentStyleHeader), numeric: true),
         DataColumn(label: Text('Description', style: contentStyleHeader)),
         DataColumn(
             label: Text('Price', style: contentStyleHeader), numeric: true),
