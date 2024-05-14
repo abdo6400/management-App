@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'client.g.dart';
 @HiveType(typeId: 0)
-class Client {
+class ClientData {
   @HiveField(0)
   String id;
   @HiveField(1)
@@ -14,6 +14,6 @@ class Client {
   @HiveField(3)
   String clientType;
 
-  Client({required this.id, required this.phone, required this.name, required this.clientType});
+  ClientData({required this.id, required this.phone, required this.name, required this.clientType});
 }
 

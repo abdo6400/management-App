@@ -1,7 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-
-import '../../../../core/models/client.dart';
 import '../../domain/usecases/add_client_usecase.dart';
 
 part 'client_event.dart';

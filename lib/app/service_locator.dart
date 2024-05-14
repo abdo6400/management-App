@@ -64,7 +64,7 @@ Future<void> _app() async {
       () => CLientRepositoryImpl(dataSource: sl()));
   //! Data sources
   sl.registerLazySingleton<ClientLocalDataSource>(
-      () => ClientLocalDataSourceImpl(localConsumer: sl(),apiConsumer: sl()));
+      () => ClientLocalDataSourceImpl(localConsumer: sl()));
 }
 
 Future<void> _authInit() async {

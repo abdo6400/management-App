@@ -8,7 +8,7 @@ abstract class ClientEvent extends Equatable {
 }
 
 class AddClientEvent extends ClientEvent {
-  final Client client;
+  final AddClientParams client;
 
   AddClientEvent({required this.client});
 }

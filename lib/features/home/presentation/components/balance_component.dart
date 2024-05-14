@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 
-import '../../../../core/models/quantity_value.dart';
+import '../../../../config/database/local/data_models/quantity_value.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_images.dart';
 import '../../../../core/utils/app_strings.dart';
@@ -36,26 +36,17 @@ class BalanceComponents extends StatelessWidget {
                   .titleLarge!
                   .copyWith(color: AppColors.white),
             ),
-            trailing: ValueListenableBuilder<Box<QuantityValue>>(
-              valueListenable: HiveLocalDatabase().getBalance(),
-              builder: (context, balance, _) {
-                double balanceValue = 0;
-                balance.values.forEach(
-                  (element) => balanceValue += element.quantityValue,
-                );
-                return RichText(
-                    text: TextSpan(
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(color: AppColors.white),
-                        children: [
-                      TextSpan(text: balanceValue.toString()),
-                      const TextSpan(text: " "),
-                      TextSpan(text: AppStrings.kilo.tr(context)),
-                    ]));
-              },
-            ),
+            trailing: RichText(
+                text: TextSpan(
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(color: AppColors.white),
+                    children: [
+                  TextSpan(text: 0.toString()),
+                  const TextSpan(text: " "),
+                  TextSpan(text: AppStrings.kilo.tr(context)),
+                ])),
           )),
     );
   }

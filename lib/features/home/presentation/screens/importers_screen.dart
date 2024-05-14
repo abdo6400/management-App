@@ -3,9 +3,8 @@ import 'package:baraneq/core/utils/app_colors.dart';
 import 'package:baraneq/core/utils/app_values.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-
 import '../../../../config/database/local/hive_local_database.dart';
-import '../../../../core/models/client.dart';
+import '../../../../core/entities/client.dart';
 import '../../../../core/utils/app_strings.dart';
 
 class ImportersScreen extends StatelessWidget {

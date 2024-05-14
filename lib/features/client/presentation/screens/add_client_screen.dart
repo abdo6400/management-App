@@ -9,8 +9,8 @@ import 'package:quickalert/quickalert.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../core/components/default_components/default_button.dart';
 import '../../../../core/components/default_components/default_form_field.dart';
-import '../../../../core/models/client.dart';
 import '../../../../core/utils/app_values.dart';
+import '../../domain/usecases/add_client_usecase.dart';
 import '../bloc/client_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -136,7 +136,7 @@ class AddClientScreen extends StatelessWidget {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       context.read<ClientBloc>().add(AddClientEvent(
-                          client: Client(
+                          client: AddClientParams(
                               id: Uuid().v1(),
                               phone: phoneNumber.text,
                               name: name.text,
