@@ -6,7 +6,6 @@ import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:uuid/uuid.dart';
 import '../../../../core/components/default_components/default_button.dart';
 import '../../../../core/components/default_components/default_form_field.dart';
 import '../../../../core/utils/app_values.dart';
@@ -137,7 +136,6 @@ class AddClientScreen extends StatelessWidget {
                     if (formKey.currentState!.validate()) {
                       context.read<ClientBloc>().add(AddClientEvent(
                           client: AddClientParams(
-                              id: Uuid().v1(),
                               phone: phoneNumber.text,
                               name: name.text,
                               clientType: type)));

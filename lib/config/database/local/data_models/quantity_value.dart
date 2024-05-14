@@ -6,18 +6,26 @@ class QuantityValue {
   @HiveField(0)
   String clientId;
 
-  @HiveField(1)
-  double quantityValue;
+ @HiveField(1)
+  String id;
 
   @HiveField(2)
-  DateTime date;
+  double quantityValue;
 
   @HiveField(3)
+  DateTime date;
+
+  @HiveField(4)
+  String bont;
+
+  @HiveField(5)
   String type;
 
   QuantityValue(
       {required this.quantityValue,
       required this.date,
       required this.type,
+      required this.bont,
+      required this.id,
       required this.clientId});
 }

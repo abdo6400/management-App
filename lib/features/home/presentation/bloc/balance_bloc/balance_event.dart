@@ -7,4 +7,4 @@ sealed class BalanceEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetBalance extends BalanceEvent {}
+class GetBalanceEvent  extends BalanceEvent {}

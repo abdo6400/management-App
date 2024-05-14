@@ -1,4 +1,7 @@
 import 'package:baraneq/features/client/presentation/bloc/client_bloc.dart';
+import 'package:baraneq/features/home/presentation/bloc/balance_bloc/balance_bloc.dart';
+import 'package:baraneq/features/home/presentation/bloc/exporter_bloc/exporter_bloc.dart';
+import 'package:baraneq/features/home/presentation/bloc/importers_bloc/importers_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +13,7 @@ import '../config/themes/app_theme.dart';
 import '../core/bloc/global_cubit/locale_cubit.dart';
 import '../core/bloc/global_cubit/theme_cubit.dart';
 import '../core/utils/app_strings.dart';
+import '../features/home/presentation/bloc/client_search_bloc/client_search_bloc.dart';
 import 'service_locator.dart';
 
 class UserApp extends StatelessWidget {
@@ -28,6 +32,10 @@ class UserApp extends StatelessWidget {
           BlocProvider(create: (context) => sl<LocaleCubit>()..getSavedLang()),
           BlocProvider(create: (context) => sl<ThemeCubit>()..getThemeMode()),
           BlocProvider(create: (context) => sl<ClientBloc>()),
+          BlocProvider(create: (context) => sl<ExporterBloc>()),
+          BlocProvider(create: (context) => sl<ImportersBloc>()),
+          BlocProvider(create: (context) => sl<ClientSearchBloc>()),
+          BlocProvider(create: (context) => sl<BalanceBloc>()),
         ],
         child: BlocBuilder<ThemeCubit, ThemeState>(
           builder: (context, mode) {

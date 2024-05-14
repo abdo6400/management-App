@@ -10,10 +10,10 @@ part 'balance_state.dart';
 class BalanceBloc extends Bloc<BalanceEvent, BalanceState> {
   final GetBalanceUsecase _getBalanceUsecase;
   BalanceBloc(this._getBalanceUsecase) : super(BalanceInitial()) {
-    on<GetBalance>(onGetBalanceEvent);
+    on<GetBalanceEvent>(onGetBalanceEvent);
   }
 
-  void onGetBalanceEvent(GetBalance event, emit) async {
+  void onGetBalanceEvent(GetBalanceEvent event, emit) async {
     emit(BalanceLoadingState());
 
     emit(await _getBalanceUsecase(NoParams()).then((value) => value.fold(

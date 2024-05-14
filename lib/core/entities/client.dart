@@ -17,7 +17,11 @@ abstract class MilkReceipt {
   final DateTime dateTime;
   final double quantity;
   final String type;
-
+  final String bant;
+   final String id;
   MilkReceipt(
-      {required this.dateTime, required this.quantity, required this.type});
+      {required this.dateTime,
+      required this.quantity,
+      required this.type,
+      required this.bant,required this.id});
 }

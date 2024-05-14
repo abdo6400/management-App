@@ -10,13 +10,15 @@ class ImportersBloc extends Bloc<ImportersEvent, ImportersState> {
   final GetClientsWithFiltersUsecase _getClientsWithFiltersUsecase;
   ImportersBloc(this._getClientsWithFiltersUsecase)
       : super(ImportersInitial()) {
-    on<GetImportersClients>(onGetImportersClients);
+    on<GetImportersClientsEvent>(onGetImportersClients);
   }
 
-  void onGetImportersClients(GetImportersClients event, emit) async {
+  void onGetImportersClients(GetImportersClientsEvent event, emit) async {
     emit(ImportersClientsLoadingState());
-    emit(await _getClientsWithFiltersUsecase(false).then((value) => value.fold(
-        (l) => ImportersClientsErrorState(message: l.errorMessage),
-        (r) => ImportersClientsLoadedState(clients: r))));
+    emit(await _getClientsWithFiltersUsecase(
+            ClientsFilters(isExporter: true, isToDay: true))
+        .then((value) => value.fold(
+            (l) => ImportersClientsErrorState(message: l.errorMessage),
+            (r) => ImportersClientsLoadedState(clients: r))));
   }
 }

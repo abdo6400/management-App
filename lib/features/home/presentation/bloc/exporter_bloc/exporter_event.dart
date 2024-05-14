@@ -7,4 +7,4 @@ sealed class ExporterEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetExportersClients extends ExporterEvent {}
+class GetExportersClientsEvent  extends ExporterEvent {}

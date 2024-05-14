@@ -2,46 +2,56 @@ import 'package:accordion/accordion.dart';
 import 'package:baraneq/core/utils/app_colors.dart';
 import 'package:baraneq/core/utils/app_values.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import '../../../../config/database/local/hive_local_database.dart';
-import '../../../../core/entities/client.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/components/default_components/default_message_card.dart';
 import '../../../../core/utils/app_strings.dart';
+import '../bloc/importers_bloc/importers_bloc.dart';
 
 class ImportersScreen extends StatelessWidget {
   const ImportersScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<Box<Client>>(
-      valueListenable: HiveLocalDatabase().getClients(),
-      builder: (context, snapshot, _) {
-        return Accordion(
-          openAndCloseAnimation: true,
-          headerBackgroundColor: Theme.of(context).primaryColor,
-          maxOpenSections: 1,
-          initialOpeningSequenceDelay: 1,
-          children: snapshot.values
-              .where((element) =>
-                  element.clientType.compareTo(
-                      AppStrings.importer.toUpperCase()) ==
-                  0)
-              .map(
-                (e) => AccordionSection(
-                  header: Text(e.name,
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: AppColors.white,
-                          fontSize: AppValues.font * 18)),
-                  content: const MyDataTable(),
-                  leftIcon: CircleAvatar(
-                    child: Text(e.name.characters.first),
+    return BlocBuilder<ImportersBloc, ImportersState>(
+      builder: (contImt, state) {
+        if (state is ImportersClientsLoadingState) {
+          return CircularProgressIndicator();
+        } else if (state is ImportersClientsErrorState) {
+          return DefaultMessageCard(
+              sign: "!",
+              title: AppStrings.someThingWentWrong,
+              subTitle: state.message);
+        } else if (state is ImportersClientsLoadedState) {
+          return Accordion(
+            openAndCloseAnimation: true,
+            headerBackgroundColor: Theme.of(context).primaryColor,
+            maxOpenSections: 1,
+            initialOpeningSequenceDelay: 1,
+            children: state.clients
+                .where((element) =>
+                    element.clientType
+                        .compareTo(AppStrings.exporter.toUpperCase()) ==
+                    0)
+                .map(
+                  (e) => AccordionSection(
+                    header: Text(e.name,
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            color: AppColors.white,
+                            fontSize: AppValues.font * 18)),
+                    content: const MyDataTable(),
+                    leftIcon: CircleAvatar(
+                      child: Text(e.name.characters.first),
+                    ),
+                    headerPadding: EdgeInsets.symmetric(
+                        horizontal: AppValues.paddingWidth * 10,
+                        vertical: AppValues.paddingHeight * 10),
                   ),
-                  headerPadding: EdgeInsets.symmetric(
-                      horizontal: AppValues.paddingWidth * 10,
-                      vertical: AppValues.paddingHeight * 10),
-                ),
-              )
-              .toList(),
-        );
+                )
+                .toList(),
+          );
+        }
+        return CircularProgressIndicator();
       },
     );
   }
