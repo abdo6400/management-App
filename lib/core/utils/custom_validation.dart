@@ -74,10 +74,11 @@ class CustomValidationHandler {
     return null;
   }
 
-  static bool isVaildCode(String text) {
-    if (text.isNotEmpty && text.length >= 4) {
-      return true;
+  static String? isVaildCode(String? text) {
+    if (text == null || text.isEmpty || double.tryParse(text) == null) {
+      return AppStrings.pleaseEnterVaildValue;
     }
-    return false;
+
+    return null;
   }
 }

@@ -20,6 +20,7 @@ class AppStrings {
   static const pleaseEnterVaildPhoneNumber = "pleaseEnterVaildPhoneNumber";
   static const pleaseEnterVaildConfirmPassword =
       "pleaseEnterVaildConfirmPassword";
+  static const pleaseEnterVaildValue= "pleaseEnterVaildValue";
   static const canNotGetLocation = "canNotGetLocation";
   static const changeLang = "changeLang";
   static const deliverTo = "deliverTo";
@@ -31,6 +32,9 @@ class AppStrings {
   static const uppercase = "uppercase";
   static const length = "length";
   static const loading = "loading";
+  static const pm= "pm";
+  static const am= "am";
+  static const time= "time";
   //app Strings
   static const onboarding1 = "onboarding1";
   static const onboardingSub1 = "onboardingSub1";
@@ -60,4 +64,9 @@ class AppStrings {
   static const kilo = "kilo";
   static const add = "add";
   static const newClientAdded = "newClientAdded";
+
+  static const bont = "bont";
+  static const quantity= "quantity";
+  static const tank= "tank";
+  
 }

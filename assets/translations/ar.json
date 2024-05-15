@@ -18,6 +18,7 @@
     "pleaseEnterVaildName": "الرجاء إدخال اسم صالح",
     "pleaseEnterVaildPhoneNumber": "الرجاء إدخال رقم هاتف صالح",
     "pleaseEnterVaildConfirmPassword": "الرجاء إدخال تأكيد كلمة المرور صالح",
+    "pleaseEnterVaildValue": "يرجى إدخال قيمة صالحة",
     "canNotGetLocation": "لا يمكن الحصول على الموقع",
     "changeLang": "تغيير اللغة",
     "deliverTo": "تسليم إلى",
@@ -27,7 +28,10 @@
     "lowercase": "حروف صغيرة",
     "uppercase": "حروف كبيرة",
     "length": "الطول",
-    "loading":"الرجاء الانتظار",
+    "loading": "الرجاء الانتظار",
+    "pm": "مساءً",
+    "am": "صباحًا",
+    "time": "الوقت",
     ".....................": "..........................",
     "onboarding1": "التعريف الأول",
     "onboardingSub1": "التعريف الفرعي الأول",
@@ -55,5 +59,8 @@
     "clientType": "نوع العميل",
     "kilo": "كيلو",
     "add": "اضافة",
-    "newClientAdded":"تم اضافة العميل بنجاح"
+    "newClientAdded": "تم اضافة العميل بنجاح",
+    "bont": "البونت",
+    "quantity": "الكمية",
+    "tank": "الخزان"
 }

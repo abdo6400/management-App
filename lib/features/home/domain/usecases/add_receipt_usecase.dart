@@ -20,12 +20,14 @@ class AddReceiptParams {
   final double bant;
   final double quantityValue;
   final String id;
+  final String tankNumber;
   final String clientId;
   AddReceiptParams(
       {required this.quantityValue,
       required this.type,
       required this.bant,
       required this.id,
+      required this.tankNumber,
       required this.clientId});
 
   Map<String, dynamic> toJson() {
@@ -33,6 +35,7 @@ class AddReceiptParams {
       "type": type,
       "bant": bant,
       "quantity": quantityValue,
+      "tankNumber": tankNumber,
       "clientId": clientId
     };
   }

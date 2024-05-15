@@ -32,10 +32,15 @@ class UserApp extends StatelessWidget {
           BlocProvider(create: (context) => sl<LocaleCubit>()..getSavedLang()),
           BlocProvider(create: (context) => sl<ThemeCubit>()..getThemeMode()),
           BlocProvider(create: (context) => sl<ClientBloc>()),
-          BlocProvider(create: (context) => sl<ExporterBloc>()),
-          BlocProvider(create: (context) => sl<ImportersBloc>()),
+          BlocProvider(
+              create: (context) =>
+                  sl<ExporterBloc>()..add(GetExportersClientsEvent())),
+          BlocProvider(
+              create: (context) =>
+                  sl<ImportersBloc>()..add(GetImportersClientsEvent())),
           BlocProvider(create: (context) => sl<ClientSearchBloc>()),
-          BlocProvider(create: (context) => sl<BalanceBloc>()),
+          BlocProvider(
+              create: (context) => sl<BalanceBloc>()..add(GetBalanceEvent())),
         ],
         child: BlocBuilder<ThemeCubit, ThemeState>(
           builder: (context, mode) {

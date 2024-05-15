@@ -1,5 +1,7 @@
 import 'package:baraneq/config/locale/app_localizations.dart';
+import 'package:baraneq/features/home/presentation/components/create_receipt_component.dart';
 import 'package:flutter/material.dart';
+import 'package:quickalert/quickalert.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/app_values.dart';
 
@@ -21,7 +23,17 @@ class CustomTabBarComponent extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 leading: GestureDetector(
-                    onTap: () {}, child: const Icon(Icons.add_circle)),
+                    onTap: () {
+                      QuickAlert.show(
+                          context: context,
+                          type: QuickAlertType.custom,
+                          confirmBtnText: AppStrings.importer.tr(context),
+                          cancelBtnText: AppStrings.cancel.tr(context),
+                          confirmBtnColor: Theme.of(context).primaryColor,
+                          showCancelBtn: true,
+                          widget: CreateReceiptComponent());
+                    },
+                    child: const Icon(Icons.add_circle)),
               )),
           Expanded(
             child: Container(

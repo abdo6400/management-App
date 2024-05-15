@@ -6,7 +6,7 @@ class QuantityValue {
   @HiveField(0)
   String clientId;
 
- @HiveField(1)
+  @HiveField(1)
   String id;
 
   @HiveField(2)
@@ -21,11 +21,15 @@ class QuantityValue {
   @HiveField(5)
   String type;
 
+  @HiveField(6)
+  String tankNumber;
+
   QuantityValue(
       {required this.quantityValue,
       required this.date,
       required this.type,
       required this.bont,
       required this.id,
-      required this.clientId});
+      required this.clientId,
+      required this.tankNumber});
 }

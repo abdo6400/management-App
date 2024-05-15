@@ -17,11 +17,14 @@ abstract class MilkReceipt {
   final DateTime dateTime;
   final double quantity;
   final String type;
-  final String bant;
-   final String id;
+  final String bont;
+  final String tankNumber;
+  final String id;
   MilkReceipt(
       {required this.dateTime,
       required this.quantity,
       required this.type,
-      required this.bant,required this.id});
+      required this.tankNumber,
+      required this.bont,
+      required this.id});
 }

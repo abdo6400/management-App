@@ -40,6 +40,7 @@ class HiveLocalDatabase {
                           "quantity": e.quantityValue,
                           "type": e.type,
                           "bont": e.bont,
+                          "tankNumber": e.tankNumber,
                           "id": e.id
                         }),
               })
@@ -61,6 +62,7 @@ class HiveLocalDatabase {
                         "quantity": e.quantityValue,
                         "type": e.type,
                         "bont": e.bont,
+                        "tankNumber": e.tankNumber,
                         "id": e.id
                       }),
             })
@@ -106,6 +108,7 @@ class HiveLocalDatabase {
         date: DateTime.now(),
         type: receipt["type"],
         bont: receipt["bant"],
+        tankNumber: receipt["tankNumber"],
         clientId: receipt["clientId"],
         id: Uuid().v1(),
       ));
@@ -132,6 +135,7 @@ class HiveLocalDatabase {
                 date: DateTime.now(),
                 type: receipt["type"],
                 bont: receipt["bant"],
+                tankNumber: receipt["tankNumber"],
                 clientId: quantityValuesBox.get(key)!.clientId,
                 id: receipt["id"]));
         return Future.value(true);

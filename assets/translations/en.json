@@ -18,6 +18,10 @@
     "pleaseEnterVaildName": "pleaseEnterVaildName",
     "pleaseEnterVaildPhoneNumber": "pleaseEnterVaildPhoneNumber",
     "pleaseEnterVaildConfirmPassword": "pleaseEnterVaildConfirmPassword",
+    "pleaseEnterVaildValue": "please enter valid value",
+    "pm": "pm",
+    "am": "am",
+    "time": "time",
     "canNotGetLocation": "canNotGetLocation",
     "changeLang": "changeLang",
     "deliverTo": "deliverTo",
@@ -28,7 +32,7 @@
     "uppercase": "uppercase",
     "length": "length",
     "loading": "please wait until finish",
-    ".....................":"..........................",
+    ".....................": "..........................",
     "onboarding1": "onboarding1",
     "onboardingSub1": "onboardingSub1",
     "onboarding2": "onboarding2",
@@ -53,7 +57,10 @@
     "importer": "importer",
     "exporter": "exporter",
     "clientType": "clientType",
-    "kilo":"Kilo",
-    "add":"Add",
-    "newClientAdded":"New client has been added"
+    "kilo": "Kilo",
+    "add": "Add",
+    "newClientAdded": "New client has been added",
+    "bont": "bont",
+    "quantity": "quantity",
+    "tank": "tank"
 }

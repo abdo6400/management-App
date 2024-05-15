@@ -23,13 +23,14 @@ class QuantityValueAdapter extends TypeAdapter<QuantityValue> {
       bont: fields[4] as String,
       id: fields[1] as String,
       clientId: fields[0] as String,
+      tankNumber: fields[6] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, QuantityValue obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.clientId)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class QuantityValueAdapter extends TypeAdapter<QuantityValue> {
       ..writeByte(4)
       ..write(obj.bont)
       ..writeByte(5)
-      ..write(obj.type);
+      ..write(obj.type)
+      ..writeByte(6)
+      ..write(obj.tankNumber);
   }
 
   @override

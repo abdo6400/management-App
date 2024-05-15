@@ -22,14 +22,15 @@ class MilkReceiptModel extends MilkReceipt {
       {required super.dateTime,
       required super.quantity,
       required super.type,
-      required super.bant,
-      required super.id});
+      required super.bont,
+      required super.id,required super.tankNumber});
 
   factory MilkReceiptModel.fromJson(Map<String, dynamic> json) =>
       MilkReceiptModel(
           dateTime: json["dateTime"],
           quantity: json["quantity"],
           type: json["type"],
-          bant: json["bont"],
+          bont: json["bont"],
+          tankNumber: json["tankNumber"],
           id: json["id"]);
 }
