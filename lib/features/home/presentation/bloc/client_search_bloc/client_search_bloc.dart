@@ -17,6 +17,7 @@ class ClientSearchBloc extends Bloc<ClientSearchEvent, ClientSearchState> {
   }
 
   void searchClean(SearchCleanClientEvent event, emit) {
+    emit(ClientSearchLoadingState());
     emit(ClientSearchLoadedState(clients: []));
   }
 

@@ -48,103 +48,105 @@ class AddClientScreen extends StatelessWidget {
     return Scaffold(
         body: BlocListener<ClientBloc, ClientState>(
       listener: _handleStates,
-      child: SizedBox(
+      child:SingleChildScrollView(
+              child:  SizedBox(
         height: AppValues.screenHeight,
         width: AppValues.screenWidth,
         child: Padding(
           padding:
               EdgeInsets.symmetric(horizontal: AppValues.paddingWidth * 10),
-          child: Form(
+          child:Form(
             key: formKey,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: AppValues.sizeHeight * 50,
-                ),
-                Container(
-                    margin: EdgeInsets.symmetric(
-                        horizontal: AppValues.marginWidth * 10),
-                    child: ListTile(
-                      title: Text(
-                        AppStrings.clientType.tr(context),
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      leading: const Icon(Icons.import_export),
-                    )),
-                Divider(),
-                SizedBox(
-                  height: AppValues.sizeHeight * 20,
-                ),
-                CustomRadioButton(
-                  elevation: 1,
-                  absoluteZeroSpacing: false,
-                  unSelectedColor: Theme.of(context).canvasColor,
-                  horizontal: false,
-                  enableShape: true,
-                  defaultSelected: type,
-                  customShape: BeveledRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(AppValues.radius * 10)),
-                  padding: 5,
-                  spacing: 0.0,
-                  buttonLables: [
-                    AppStrings.importer.tr(context),
-                    AppStrings.exporter.tr(context),
-                  ],
-                  buttonValues: [
-                    AppStrings.importer.toUpperCase(),
-                    AppStrings.exporter.toUpperCase(),
-                  ],
-                  buttonTextStyle: ButtonTextStyle(
-                      selectedColor: AppColors.white,
-                      unSelectedColor: AppColors.black,
-                      textStyle: Theme.of(context).textTheme.titleMedium!),
-                  radioButtonValue: (value) {
-                    type = value;
-                  },
-                  selectedColor: Theme.of(context).primaryColor,
-                ),
-                SizedBox(
-                  height: AppValues.sizeHeight * 20,
-                ),
-                DefaultTextFormField(
-                  controller: name,
-                  type: TextInputType.name,
-                  label: AppStrings.name,
-                  prefix: Icons.person,
-                  validate: (value) =>
-                      CustomValidationHandler.isValidName(value)
-                          .translateWithNullSafetyString(context),
-                ),
-                SizedBox(
-                  height: AppValues.sizeHeight * 20,
-                ),
-                DefaultTextFormField(
-                  controller: phoneNumber,
-                  type: TextInputType.phone,
-                  label: AppStrings.phoneNumber,
-                  prefix: Icons.phone,
-                  validate: (value) =>
-                      CustomValidationHandler.isValidPhoneNumber(value)
-                          .translateWithNullSafetyString(context),
-                ),
-                SizedBox(
-                  height: AppValues.sizeHeight * 20,
-                ),
-                DefaultButton(
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      context.read<ClientBloc>().add(AddClientEvent(
-                          client: AddClientParams(
-                              phone: phoneNumber.text,
-                              name: name.text,
-                              clientType: type)));
-                    }
-                  },
-                  text: AppStrings.add,
-                  width: AppValues.screenWidth / 2,
-                )
-              ],
+            child:  Column(
+                children: [
+                  SizedBox(
+                    height: AppValues.sizeHeight * 50,
+                  ),
+                  Container(
+                      margin: EdgeInsets.symmetric(
+                          horizontal: AppValues.marginWidth * 10),
+                      child: ListTile(
+                        title: Text(
+                          AppStrings.clientType.tr(context),
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        leading: const Icon(Icons.import_export),
+                      )),
+                  Divider(),
+                  SizedBox(
+                    height: AppValues.sizeHeight * 20,
+                  ),
+                  CustomRadioButton(
+                    elevation: 1,
+                    absoluteZeroSpacing: false,
+                    unSelectedColor: Theme.of(context).canvasColor,
+                    horizontal: false,
+                    enableShape: true,
+                    defaultSelected: type,
+                    customShape: BeveledRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(AppValues.radius * 10)),
+                    padding: 5,
+                    spacing: 0.0,
+                    buttonLables: [
+                      AppStrings.importer.tr(context),
+                      AppStrings.exporter.tr(context),
+                    ],
+                    buttonValues: [
+                      AppStrings.importer.toUpperCase(),
+                      AppStrings.exporter.toUpperCase(),
+                    ],
+                    buttonTextStyle: ButtonTextStyle(
+                        selectedColor: AppColors.white,
+                        unSelectedColor: AppColors.black,
+                        textStyle: Theme.of(context).textTheme.titleMedium!),
+                    radioButtonValue: (value) {
+                      type = value;
+                    },
+                    selectedColor: Theme.of(context).primaryColor,
+                  ),
+                  SizedBox(
+                    height: AppValues.sizeHeight * 20,
+                  ),
+                  DefaultTextFormField(
+                    controller: name,
+                    type: TextInputType.name,
+                    label: AppStrings.name,
+                    prefix: Icons.person,
+                    validate: (value) =>
+                        CustomValidationHandler.isValidName(value)
+                            .translateWithNullSafetyString(context),
+                  ),
+                  SizedBox(
+                    height: AppValues.sizeHeight * 20,
+                  ),
+                  DefaultTextFormField(
+                    controller: phoneNumber,
+                    type: TextInputType.phone,
+                    label: AppStrings.phoneNumber,
+                    prefix: Icons.phone,
+                    validate: (value) =>
+                        CustomValidationHandler.isValidPhoneNumber(value)
+                            .translateWithNullSafetyString(context),
+                  ),
+                  SizedBox(
+                    height: AppValues.sizeHeight * 20,
+                  ),
+                  DefaultButton(
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        context.read<ClientBloc>().add(AddClientEvent(
+                            client: AddClientParams(
+                                phone: phoneNumber.text,
+                                name: name.text,
+                                clientType: type)));
+                      }
+                    },
+                    text: AppStrings.add,
+                    width: AppValues.screenWidth / 2,
+                  )
+                ],
+              ),
             ),
           ),
         ),

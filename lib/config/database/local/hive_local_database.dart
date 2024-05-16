@@ -20,14 +20,42 @@ class HiveLocalDatabase {
     clientsBox = await Hive.openBox<ClientData>(clients);
     quantityValuesBox = await Hive.openBox<QuantityValue>(quantityValues);
     balanceBox = await Hive.openBox<double>(balanceValue);
-    balanceBox.clear();
-    quantityValuesBox.clear();
+  }
+
+  void balance(double value, String clientId, {bool isDelete = false}) {
+    if (clientsBox.values
+            .firstWhere((f) => f.id.compareTo(clientId) == 0)
+            .clientType
+            .compareTo(AppStrings.importer.toUpperCase()) ==
+        0) {
+      if (isDelete) {
+        balanceBox.put(balanceBox.keys.first, balanceBox.values.first - value);
+      } else {
+        if (balanceBox.isEmpty) {
+          balanceBox.add(value);
+        } else {
+          balanceBox.put(
+              balanceBox.keys.first, balanceBox.values.first + value);
+        }
+      }
+    } else {
+      if (isDelete) {
+        balanceBox.put(balanceBox.keys.first, balanceBox.values.first + value);
+      } else {
+        if (balanceBox.isEmpty) {
+          balanceBox.add(-value);
+        } else {
+          balanceBox.put(
+              balanceBox.keys.first, balanceBox.values.first - value);
+        }
+      }
+    }
   }
 
   Future<dynamic> getDailyClientsWithFilters(
       {required bool isExporter, required bool isToDay}) async {
     if (isToDay) {
-      final List<String> ids = await GetDailyClientIds();
+      final List<String> ids = await getDailyClientIds();
       return Future.value(clientsBox.values
           .filter((f) => isExporter
               ? f.clientType.compareTo(AppStrings.exporter.toUpperCase()) == 0
@@ -75,7 +103,7 @@ class HiveLocalDatabase {
         .toList());
   }
 
-  Future<List<String>> GetDailyClientIds() async {
+  Future<List<String>> getDailyClientIds() async {
     return quantityValuesBox.values
         .filter((f) => (DateTime(f.date.year, f.date.month, f.date.day)
                 .compareTo(DateTime(DateTime.now().year, DateTime.now().month,
@@ -83,6 +111,16 @@ class HiveLocalDatabase {
             0))
         .map((e) => e.clientId)
         .toList();
+  }
+
+  Future<QuantityValue> getDailyQuantityValue(String clientId) async {
+    return quantityValuesBox.values
+        .filter((f) => (DateTime(f.date.year, f.date.month, f.date.day)
+                .compareTo(DateTime(DateTime.now().year, DateTime.now().month,
+                    DateTime.now().day)) ==
+            0))
+        .filter((f) => f.clientId.compareTo(clientId) == 0)
+        .first;
   }
 
   Future<double> getBalance() {
@@ -119,40 +157,10 @@ class HiveLocalDatabase {
         id: Uuid().v1(),
       ));
       balance(receipt["quantity"], receipt["clientId"]);
+
       return Future.value(true);
     } catch (e) {
-      print(e);
       return Future.value(false);
-    }
-  }
-
-  void balance(double value, String clientId, {bool isDelete = false}) {
-    if (clientsBox.values
-            .firstWhere((f) => f.id.compareTo(clientId) == 0)
-            .clientType
-            .compareTo(AppStrings.importer.toUpperCase()) ==
-        0) {
-      if (isDelete) {
-        balanceBox.put(balanceBox.keys.first, balanceBox.values.first - value);
-      } else {
-        if (balanceBox.isEmpty) {
-          balanceBox.add(value);
-        } else {
-          balanceBox.put(
-              balanceBox.keys.first, balanceBox.values.first + value);
-        }
-      }
-    } else {
-      if (isDelete) {
-        balanceBox.put(balanceBox.keys.first, balanceBox.values.first + value);
-      } else {
-        if (balanceBox.isEmpty) {
-          balanceBox.add(-value);
-        } else {
-          balanceBox.put(
-              balanceBox.keys.first, balanceBox.values.first - value);
-        }
-      }
     }
   }
 

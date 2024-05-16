@@ -1,10 +1,12 @@
 import 'package:accordion/accordion.dart';
+import 'package:baraneq/config/locale/app_localizations.dart';
 import 'package:baraneq/core/utils/app_colors.dart';
 import 'package:baraneq/core/utils/app_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/components/default_components/default_message_card.dart';
+import '../../../../core/entities/client.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../bloc/importers_bloc/importers_bloc.dart';
 
@@ -35,7 +37,7 @@ class ImportersScreen extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: AppColors.white,
                             fontSize: AppValues.font * 18)),
-                    content: const MyDataTable(),
+                    content: MyDataTable(client: e),
                     leftIcon: CircleAvatar(
                       child: Text(e.name.characters.first),
                     ),
@@ -54,62 +56,41 @@ class ImportersScreen extends StatelessWidget {
 }
 
 class MyDataTable extends StatelessWidget {
-  const MyDataTable({super.key});
+  final Client client;
+  const MyDataTable({super.key, required this.client});
   static const contentStyleHeader = TextStyle(
-      color: Color(0xff999999), fontSize: 14, fontWeight: FontWeight.w700);
+      color: Color(0xff999999), fontSize: 10, fontWeight: FontWeight.w700);
   static const contentStyle = TextStyle(
-      color: Color(0xff999999), fontSize: 14, fontWeight: FontWeight.normal);
+      color: Color(0xff999999), fontSize: 10, fontWeight: FontWeight.normal);
   @override
   Widget build(context) {
     return DataTable(
       sortAscending: true,
       sortColumnIndex: 1,
       showBottomBorder: false,
-      columns: const [
+      columns: [
         DataColumn(
-            label: Text('time', style: contentStyleHeader), numeric: true),
-        DataColumn(label: Text('Description', style: contentStyleHeader)),
+            label:
+                Text(AppStrings.time.tr(context), style: contentStyleHeader)),
         DataColumn(
-            label: Text('Price', style: contentStyleHeader), numeric: true),
+            label: Text(AppStrings.quantity.tr(context),
+                style: contentStyleHeader),
+            numeric: true),
       ],
-      rows: const [
-        DataRow(
-          cells: [
-            DataCell(
-                Text('1', style: contentStyle, textAlign: TextAlign.right)),
-            DataCell(Text('Fancy Product', style: contentStyle)),
-            DataCell(Text(r'$ 199.99',
-                style: contentStyle, textAlign: TextAlign.right))
-          ],
-        ),
-        DataRow(
-          cells: [
-            DataCell(
-                Text('2', style: contentStyle, textAlign: TextAlign.right)),
-            DataCell(Text('Another Product', style: contentStyle)),
-            DataCell(Text(r'$ 79.00',
-                style: contentStyle, textAlign: TextAlign.right))
-          ],
-        ),
-        DataRow(
-          cells: [
-            DataCell(
-                Text('3', style: contentStyle, textAlign: TextAlign.right)),
-            DataCell(Text('Really Cool Stuff', style: contentStyle)),
-            DataCell(Text(r'$ 9.99',
-                style: contentStyle, textAlign: TextAlign.right))
-          ],
-        ),
-        DataRow(
-          cells: [
-            DataCell(
-                Text('4', style: contentStyle, textAlign: TextAlign.right)),
-            DataCell(Text('Last Product goes here', style: contentStyle)),
-            DataCell(Text(r'$ 19.99',
-                style: contentStyle, textAlign: TextAlign.right))
-          ],
-        ),
-      ],
+      rows: client.receipts
+          .map(
+            (e) => DataRow(
+              cells: [
+                DataCell(Text(
+                    e.dateTime.toUtc().toString() +
+                        e.type.toLowerCase().tr(context),
+                    style: contentStyle)),
+                DataCell(Text(e.quantity.toString(),
+                    style: contentStyle, textAlign: TextAlign.right))
+              ],
+            ),
+          )
+          .toList(),
     );
   }
 }

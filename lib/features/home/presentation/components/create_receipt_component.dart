@@ -29,147 +29,149 @@ class CreateReceiptComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: AlertDialog(
-      scrollable: true,
-      content: Form(
-        key: formKey,
         child: SizedBox(
-          width: AppValues.screenWidth,
-          child: Stack(
-            children: [
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    AppStrings.addReceipt.tr(context),
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  SizedBox(
-                    height: AppValues.sizeHeight * 20,
-                  ),
-                  Divider(),
-                  CustomRadioButton(
-                    elevation: 0.5,
-                    absoluteZeroSpacing: false,
-                    unSelectedColor: Theme.of(context).canvasColor,
-                    horizontal: false,
-                    enableShape: true,
-                    defaultSelected: type,
-                    customShape: BeveledRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(AppValues.radius * 10)),
-                    padding: 5,
-                    spacing: 2,
-                    buttonLables: [
-                      AppStrings.pm.tr(context),
-                      AppStrings.am.tr(context),
-                    ],
-                    buttonValues: [
-                      AppStrings.pm.toUpperCase(),
-                      AppStrings.am.toUpperCase(),
-                    ],
-                    buttonTextStyle: ButtonTextStyle(
-                        selectedColor: AppColors.white,
-                        unSelectedColor: AppColors.black,
-                        textStyle: Theme.of(context).textTheme.titleMedium!),
-                    radioButtonValue: (value) {
-                      type = value;
-                    },
-                    selectedColor: Theme.of(context).primaryColor,
-                  ),
-                  SizedBox(
-                    height: AppValues.sizeHeight * 20,
-                  ),
-                  DefaultTextFormField(
-                    controller: name,
-                    type: TextInputType.name,
-                    label: AppStrings.name,
-                    prefix: Icons.person,
-                    readOnly: true,
-                  ),
-                  SizedBox(
-                    height: AppValues.sizeHeight * 20,
-                  ),
-                  DefaultTextFormField(
-                    controller: quantity,
-                    type: TextInputType.phone,
-                    label: AppStrings.quantity,
-                    prefix: Icons.add_to_queue_outlined,
-                    validate: (value) =>
-                        CustomValidationHandler.isVaildCode(value)
-                            .translateWithNullSafetyString(context),
-                  ),
-                  SizedBox(
-                    height: AppValues.sizeHeight * 20,
-                  ),
-                  DefaultTextFormField(
-                    controller: bont,
-                    type: TextInputType.phone,
-                    label: AppStrings.bont,
-                    prefix: Icons.bolt,
-                    validate: (value) =>
-                        CustomValidationHandler.isVaildCode(value)
-                            .translateWithNullSafetyString(context),
-                  ),
-                  SizedBox(
-                    height: AppValues.sizeHeight * 20,
-                  ),
-                  DefaultTextFormField(
-                    controller: tank,
-                    type: TextInputType.phone,
-                    label: AppStrings.tank,
-                    prefix: Icons.propane_tank,
-                    validate: (value) =>
-                        CustomValidationHandler.isVaildCode(value)
-                            .translateWithNullSafetyString(context),
-                  ),
-                  SizedBox(
-                    height: AppValues.sizeHeight * 20,
-                  ),
-                  Row(
-                    children: [
-                      Flexible(
-                        child: DefaultButton(
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              context.read<RecepitBloc>().add(AddReceiptEvent(
-                                  addReceiptParams: AddReceiptParams(
-                                      quantityValue: double.parse(
-                                          quantity.text.toString()),
-                                      type: type,
-                                      bont: double.parse(bont.text.toString()),
-                                      tankNumber: tank.text,
-                                      clientId: client.id)));
-                              // dispose();
-                              Navigator.pop(context, true);
-                            }
-                          },
-                          text: isExporter
-                              ? AppStrings.export
-                              : AppStrings.import,
-                          background: AppColors.green,
-                        ),
+      width: AppValues.screenWidth,
+      height: AppValues.screenHeight,
+      child: SingleChildScrollView(
+        child: AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppValues.radius * 10)),
+          contentPadding: EdgeInsets.symmetric(
+              vertical: AppValues.paddingHeight * 20,
+              horizontal: AppValues.paddingWidth * 10),
+          content: Form(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  AppStrings.addReceipt.tr(context),
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                SizedBox(
+                  height: AppValues.sizeHeight * 20,
+                ),
+                Divider(),
+                CustomRadioButton(
+                  elevation: 0.5,
+                  absoluteZeroSpacing: false,
+                  unSelectedColor: Theme.of(context).canvasColor,
+                  horizontal: false,
+                  enableShape: true,
+                  defaultSelected: type,
+                  customShape: BeveledRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(AppValues.radius * 10)),
+                  padding: 5,
+                  spacing: 2,
+                  buttonLables: [
+                    AppStrings.pm.tr(context),
+                    AppStrings.am.tr(context),
+                  ],
+                  buttonValues: [
+                    AppStrings.pm.toUpperCase(),
+                    AppStrings.am.toUpperCase(),
+                  ],
+                  buttonTextStyle: ButtonTextStyle(
+                      selectedColor: AppColors.white,
+                      unSelectedColor: AppColors.black,
+                      textStyle: Theme.of(context).textTheme.titleMedium!),
+                  radioButtonValue: (value) {
+                    type = value;
+                  },
+                  selectedColor: Theme.of(context).primaryColor,
+                ),
+                SizedBox(
+                  height: AppValues.sizeHeight * 20,
+                ),
+                DefaultTextFormField(
+                  controller: name,
+                  type: TextInputType.name,
+                  label: AppStrings.name,
+                  prefix: Icons.person,
+                  readOnly: true,
+                ),
+                SizedBox(
+                  height: AppValues.sizeHeight * 20,
+                ),
+                DefaultTextFormField(
+                  controller: quantity,
+                  type: TextInputType.phone,
+                  label: AppStrings.quantity,
+                  prefix: Icons.add_to_queue_outlined,
+                  validate: (value) =>
+                      CustomValidationHandler.isVaildCode(value)
+                          .translateWithNullSafetyString(context),
+                ),
+                SizedBox(
+                  height: AppValues.sizeHeight * 20,
+                ),
+                DefaultTextFormField(
+                  controller: bont,
+                  type: TextInputType.phone,
+                  label: AppStrings.bont,
+                  prefix: Icons.bolt,
+                  validate: (value) =>
+                      CustomValidationHandler.isVaildCode(value)
+                          .translateWithNullSafetyString(context),
+                ),
+                SizedBox(
+                  height: AppValues.sizeHeight * 20,
+                ),
+                DefaultTextFormField(
+                  controller: tank,
+                  type: TextInputType.phone,
+                  label: AppStrings.tank,
+                  prefix: Icons.propane_tank,
+                  validate: (value) =>
+                      CustomValidationHandler.isVaildCode(value)
+                          .translateWithNullSafetyString(context),
+                ),
+                SizedBox(
+                  height: AppValues.sizeHeight * 20,
+                ),
+                Row(
+                  children: [
+                    Flexible(
+                      child: DefaultButton(
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            context.read<RecepitBloc>().add(AddReceiptEvent(
+                                addReceiptParams: AddReceiptParams(
+                                    quantityValue:
+                                        double.parse(quantity.text.toString()),
+                                    type: type,
+                                    bont: double.parse(bont.text.toString()),
+                                    tankNumber: tank.text,
+                                    clientId: client.id)));
+                            // dispose();
+                            Navigator.pop(context, true);
+                          }
+                        },
+                        text:
+                            isExporter ? AppStrings.export : AppStrings.import,
+                        background: AppColors.green,
                       ),
-                      SizedBox(
-                        width: AppValues.sizeWidth * 10,
+                    ),
+                    SizedBox(
+                      width: AppValues.sizeWidth * 10,
+                    ),
+                    Flexible(
+                      child: DefaultButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        borderColor: AppColors.error,
+                        background: Colors.transparent,
+                        textColor: AppColors.black,
+                        elevation: 0,
+                        text: AppStrings.cancel,
                       ),
-                      Flexible(
-                        child: DefaultButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          borderColor: AppColors.error,
-                          background: Colors.transparent,
-                          textColor: AppColors.black,
-                          elevation: 0,
-                          text: AppStrings.cancel,
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ],
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

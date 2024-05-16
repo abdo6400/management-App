@@ -1,4 +1,5 @@
 import 'package:baraneq/config/locale/app_localizations.dart';
+import 'package:baraneq/core/utils/app_colors.dart';
 import 'package:baraneq/features/home/presentation/bloc/client_search_bloc/client_search_bloc.dart';
 import 'package:baraneq/features/home/presentation/components/create_receipt_component.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class CustomTabBarComponent extends StatelessWidget {
               margin:
                   EdgeInsets.symmetric(horizontal: AppValues.marginWidth * 10),
               child: ListTile(
+                dense: true,
                 title: Text(
                   AppStrings.clientType.tr(context),
                   style: Theme.of(context).textTheme.titleLarge,
@@ -46,7 +48,8 @@ class CustomTabBarComponent extends StatelessWidget {
                         }
                       });
                     },
-                    child: const Icon(Icons.add_circle)),
+                    child:
+                        const Icon(Icons.add_circle, color: AppColors.primary)),
               )),
           Expanded(
             child: Container(
