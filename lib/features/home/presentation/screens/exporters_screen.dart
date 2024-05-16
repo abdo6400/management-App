@@ -29,10 +29,6 @@ class ExportersScreen extends StatelessWidget {
             maxOpenSections: 1,
             initialOpeningSequenceDelay: 1,
             children: state.clients
-                .where((element) =>
-                    element.clientType
-                        .compareTo(AppStrings.exporter.toUpperCase()) ==
-                    0)
                 .map(
                   (e) => AccordionSection(
                     header: Text(e.name,

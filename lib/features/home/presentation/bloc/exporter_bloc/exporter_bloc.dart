@@ -14,8 +14,11 @@ class ExporterBloc extends Bloc<ExporterEvent, ExporterState> {
 
   void onGetExportersClients(GetExportersClientsEvent event, emit) async {
     emit(ExportersClientsLoadingState());
-    emit(await _getClientsWithFiltersUsecase(ClientsFilters(isExporter: true, isToDay: true)).then((value) => value.fold(
-        (l) => ExportersClientsErrorState(message: l.errorMessage),
-        (r) => ExportersClientsLoadedState(clients: r))));
+
+    emit(await _getClientsWithFiltersUsecase(
+            ClientsFilters(isExporter: true, isToDay: true))
+        .then((value) => value.fold(
+            (l) => ExportersClientsErrorState(message: l.errorMessage),
+            (r) => ExportersClientsLoadedState(clients: r))));
   }
 }

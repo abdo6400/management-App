@@ -62,5 +62,11 @@
     "newClientAdded": "تم اضافة العميل بنجاح",
     "bont": "البونت",
     "quantity": "الكمية",
-    "tank": "الخزان"
+    "tank": "الخزان",
+    "import": "توريد",
+    "addReceipt": "إضافة إيصال",
+    "receiptAdded": "تمت إضافة الإيصال",
+    "receiptEdited": "تم تعديل الإيصال",
+    "receiptDeleted": "تم حذف الإيصال",
+    "export": "تصدير"
 }

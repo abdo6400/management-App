@@ -16,7 +16,7 @@ class ImportersBloc extends Bloc<ImportersEvent, ImportersState> {
   void onGetImportersClients(GetImportersClientsEvent event, emit) async {
     emit(ImportersClientsLoadingState());
     emit(await _getClientsWithFiltersUsecase(
-            ClientsFilters(isExporter: true, isToDay: true))
+            ClientsFilters(isExporter: false, isToDay: true))
         .then((value) => value.fold(
             (l) => ImportersClientsErrorState(message: l.errorMessage),
             (r) => ImportersClientsLoadedState(clients: r))));

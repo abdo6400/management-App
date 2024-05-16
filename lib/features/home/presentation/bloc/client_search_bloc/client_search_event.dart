@@ -12,3 +12,6 @@ class SearchClientEvent extends ClientSearchEvent {
   final bool isExporter;
   SearchClientEvent({required this.value,required this.isExporter});
 }
+
+
+class SearchCleanClientEvent extends ClientSearchEvent {}

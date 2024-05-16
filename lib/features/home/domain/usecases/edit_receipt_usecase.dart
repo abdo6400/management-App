@@ -17,14 +17,14 @@ class EditReceiptUsecase implements UseCase<bool, EditReceiptParams> {
 
 class EditReceiptParams {
   final String type;
-  final double bant;
+  final double bont;
   final double quantityValue;
   final String id;
   final String tankNumber;
   EditReceiptParams(
       {required this.quantityValue,
       required this.type,
-      required this.bant,
+      required this.bont,
       required this.tankNumber,
       required this.id});
 
@@ -32,7 +32,7 @@ class EditReceiptParams {
     return {
       "id": id,
       "type": type,
-      "bant": bant,
+      "bont": bont,
       "tankNumber": tankNumber,
       "quantity": quantityValue
     };

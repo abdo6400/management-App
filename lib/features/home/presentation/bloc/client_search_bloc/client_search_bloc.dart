@@ -13,6 +13,11 @@ class ClientSearchBloc extends Bloc<ClientSearchEvent, ClientSearchState> {
   ClientSearchBloc(this._getClientsWithFiltersUsecase)
       : super(ClientSearchInitial()) {
     on<SearchClientEvent>(onSearchEvent);
+    on<SearchCleanClientEvent>(searchClean);
+  }
+
+  void searchClean(SearchCleanClientEvent event, emit) {
+    emit(ClientSearchLoadedState(clients: []));
   }
 
   void onSearchEvent(SearchClientEvent event, emit) async {
@@ -28,8 +33,8 @@ class ClientSearchBloc extends Bloc<ClientSearchEvent, ClientSearchState> {
               clients: r
                   .filter((f) =>
                       f.id.compareTo(event.value) == 0 ||
-                      f.name.compareTo(event.value) == 0 ||
-                      f.phoneNumber.compareTo(event.value) == 0)
+                      f.name.contains(event.value) ||
+                      f.phoneNumber.contains(event.value))
                   .toList()),
         ),
       ),

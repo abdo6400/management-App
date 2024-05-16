@@ -9,14 +9,19 @@ import 'data_models/quantity_value.dart';
 class HiveLocalDatabase {
   static const clients = "clients";
   static const quantityValues = "quantityValues";
+  static const balanceValue = "balanceValue";
   static late Box<ClientData> clientsBox;
   static late Box<QuantityValue> quantityValuesBox;
+  static late Box<double> balanceBox;
   static Future<void> initializeHiveLocalDatabase() async {
     await hivef.Hive.initFlutter();
     Hive.registerAdapter(QuantityValueAdapter());
     Hive.registerAdapter(ClientDataAdapter());
     clientsBox = await Hive.openBox<ClientData>(clients);
     quantityValuesBox = await Hive.openBox<QuantityValue>(quantityValues);
+    balanceBox = await Hive.openBox<double>(balanceValue);
+    balanceBox.clear();
+    quantityValuesBox.clear();
   }
 
   Future<dynamic> getDailyClientsWithFilters(
@@ -46,6 +51,7 @@ class HiveLocalDatabase {
               })
           .toList());
     }
+
     return Future.value(await clientsBox.values
         .filter((f) => isExporter
             ? f.clientType.compareTo(AppStrings.exporter.toUpperCase()) == 0
@@ -80,12 +86,12 @@ class HiveLocalDatabase {
   }
 
   Future<double> getBalance() {
-    return Future.value(quantityValuesBox
-        .toMap()
-        .values
-        .filter((f) => f.type.compareTo(AppStrings.importer.toUpperCase()) == 0)
-        .toList()
-        .sumByDouble((d) => d.quantityValue));
+    try {
+      print(balanceBox.values.first);
+      return Future.value(balanceBox.values.first);
+    } catch (e) {
+      return Future.value(0);
+    }
   }
 
   Future<bool> addClient({required Map<String, dynamic> client}) async {
@@ -107,14 +113,46 @@ class HiveLocalDatabase {
         quantityValue: receipt["quantity"],
         date: DateTime.now(),
         type: receipt["type"],
-        bont: receipt["bant"],
-        tankNumber: receipt["tankNumber"],
+        bont: receipt["bont"].toString(),
+        tankNumber: receipt["tankNumber"].toString(),
         clientId: receipt["clientId"],
         id: Uuid().v1(),
       ));
+      balance(receipt["quantity"], receipt["clientId"]);
       return Future.value(true);
     } catch (e) {
+      print(e);
       return Future.value(false);
+    }
+  }
+
+  void balance(double value, String clientId, {bool isDelete = false}) {
+    if (clientsBox.values
+            .firstWhere((f) => f.id.compareTo(clientId) == 0)
+            .clientType
+            .compareTo(AppStrings.importer.toUpperCase()) ==
+        0) {
+      if (isDelete) {
+        balanceBox.put(balanceBox.keys.first, balanceBox.values.first - value);
+      } else {
+        if (balanceBox.isEmpty) {
+          balanceBox.add(value);
+        } else {
+          balanceBox.put(
+              balanceBox.keys.first, balanceBox.values.first + value);
+        }
+      }
+    } else {
+      if (isDelete) {
+        balanceBox.put(balanceBox.keys.first, balanceBox.values.first + value);
+      } else {
+        if (balanceBox.isEmpty) {
+          balanceBox.add(-value);
+        } else {
+          balanceBox.put(
+              balanceBox.keys.first, balanceBox.values.first - value);
+        }
+      }
     }
   }
 
@@ -134,10 +172,11 @@ class HiveLocalDatabase {
                 quantityValue: receipt["quantity"],
                 date: DateTime.now(),
                 type: receipt["type"],
-                bont: receipt["bant"],
+                bont: receipt["bont"],
                 tankNumber: receipt["tankNumber"],
                 clientId: quantityValuesBox.get(key)!.clientId,
                 id: receipt["id"]));
+        balance(receipt["quantity"], quantityValuesBox.get(key)!.clientId);
         return Future.value(true);
       } else {
         return Future.value(false);
@@ -158,6 +197,9 @@ class HiveLocalDatabase {
       });
       if (key != null) {
         await quantityValuesBox.delete(key);
+        balance(quantityValuesBox.get(key)!.quantityValue,
+            quantityValuesBox.get(key)!.clientId,
+            isDelete: true);
       } else {
         return Future.value(false);
       }

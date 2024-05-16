@@ -25,7 +25,11 @@ import '../config/database/network/netwok_info.dart';
 import '../features/client/domain/usecases/add_client_usecase.dart';
 import '../features/client/presentation/bloc/client_bloc.dart';
 import '../features/home/domain/repositories/home_repository.dart';
+import '../features/home/domain/usecases/add_receipt_usecase.dart';
+import '../features/home/domain/usecases/delete_receipt_usecase.dart';
+import '../features/home/domain/usecases/edit_receipt_usecase.dart';
 import '../features/home/presentation/bloc/client_search_bloc/client_search_bloc.dart';
+import '../features/home/presentation/bloc/receipt_bloc/recepit_bloc.dart';
 import '/core/bloc/global_cubit/locale_cubit.dart';
 import '/core/bloc/global_cubit/theme_cubit.dart';
 
@@ -69,7 +73,7 @@ Future<void> _app() async {
   sl.registerLazySingleton<ImportersBloc>(() => ImportersBloc(sl()));
   sl.registerLazySingleton<ClientSearchBloc>(() => ClientSearchBloc(sl()));
   sl.registerLazySingleton<BalanceBloc>(() => BalanceBloc(sl()));
-
+  sl.registerLazySingleton<RecepitBloc>(() => RecepitBloc(sl(), sl(), sl()));
   //! Use cases
   sl.registerLazySingleton<AddClientUsecase>(
       () => AddClientUsecase(repository: sl()));
@@ -77,6 +81,13 @@ Future<void> _app() async {
       () => GetClientsWithFiltersUsecase(repository: sl()));
   sl.registerLazySingleton<GetBalanceUsecase>(
       () => GetBalanceUsecase(repository: sl()));
+
+  sl.registerLazySingleton<AddReceiptUsecase>(
+      () => AddReceiptUsecase(repository: sl()));
+  sl.registerLazySingleton<EditReceiptUsecase>(
+      () => EditReceiptUsecase(repository: sl()));
+  sl.registerLazySingleton<DeleteReceiptUsecase>(
+      () => DeleteReceiptUsecase(repository: sl()));
   //! repositories
   sl.registerLazySingleton<ClientRepository>(
       () => CLientRepositoryImpl(dataSource: sl()));

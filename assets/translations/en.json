@@ -62,5 +62,11 @@
     "newClientAdded": "New client has been added",
     "bont": "bont",
     "quantity": "quantity",
-    "tank": "tank"
+    "tank": "tank",
+    "import": "import",
+    "addReceipt": "add receipt",
+    "receiptAdded": "receipt added",
+    "receiptEdited": "receipt edited",
+    "receiptDeleted": "receipt deleted",
+    "export": "export"
 }
