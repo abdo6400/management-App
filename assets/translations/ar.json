@@ -70,5 +70,8 @@
     "receiptDeleted": "تم حذف الإيصال",
     "export": "تصدير",
     "noImportersBeAddedYet": "لم يتم إضافة مستوردين بعد",
-    "noExportersBeAddedYet": "لم يتم إضافة مصدرين بعد"
+    "noExportersBeAddedYet": "لم يتم إضافة مصدرين بعد",
+    "totalQuantity": "الكمية الإجمالية",
+    "day": "اليوم",
+    "searchAboutClient": "البحث عن عميل"
 }

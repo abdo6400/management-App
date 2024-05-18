@@ -70,5 +70,8 @@
     "receiptDeleted": "receipt deleted",
     "export": "export",
     "noImportersBeAddedYet": "no importers have been added yet",
-    "noExportersBeAddedYet": "no exporters have been added yet"
+    "noExportersBeAddedYet": "no exporters have been added yet",
+    "totalQuantity": "total quantity",
+    "day": "day",
+    "searchAboutClient": "search about client"
 }

@@ -45,10 +45,16 @@ class ExportersScreen extends StatelessWidget {
                     content: CLientCardComponent(
                       client: e,
                       enableEditing: true,
+                      context: context,
                     ),
                     leftIcon: CircleAvatar(
-                      child: Text(e.name.characters.first),
-                    ),
+                                  backgroundColor: AppColors.nearlyWhite,
+                                  child: Text(
+                                    e.name.characters.first,
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                ),
                     headerPadding: EdgeInsets.symmetric(
                         horizontal: AppValues.paddingWidth * 10,
                         vertical: AppValues.paddingHeight * 10),

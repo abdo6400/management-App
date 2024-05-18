@@ -22,31 +22,4 @@ class SearchRepositoryImpl extends SearchRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, double>> getBalance() async {
-    try {
-      return right(await _dataSource.getBalance());
-    } on CacheException catch (e) {
-      return Left(CacheFailure(errorMessage: e.message));
-    }
-  }
-
-  @override
-  Future<Either<Failure, bool>> deleteReceipt({required String id}) async {
-    try {
-      return right(await _dataSource.deleteReceipt(id: id));
-    } on CacheException catch (e) {
-      return Left(CacheFailure(errorMessage: e.message));
-    }
-  }
-
-  @override
-  Future<Either<Failure, bool>> editReceipt(
-      {required Map<String, dynamic> receipt}) async {
-    try {
-      return right(await _dataSource.editReceipt(receipt: receipt));
-    } on CacheException catch (e) {
-      return Left(CacheFailure(errorMessage: e.message));
-    }
-  }
 }

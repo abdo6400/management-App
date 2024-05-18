@@ -96,7 +96,7 @@ class OnBoardingScreen extends StatelessWidget {
               context.navigateAndFinish(screenRoute: Routes.loginRoute);
             },
             baseBtnStyle: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(AppColors.greySoft1)),
+                backgroundColor: WidgetStatePropertyAll(AppColors.greySoft1)),
             nextStyle: TextButton.styleFrom(foregroundColor: AppColors.primary),
           )),
     );

@@ -1,6 +1,7 @@
 import 'package:baraneq/core/utils/app_strings.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart' as hivef;
+import 'package:intl/intl.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:uuid/uuid.dart';
 import 'data_models/client.dart';
@@ -52,6 +53,45 @@ class HiveLocalDatabase {
     }
   }
 
+  Future<dynamic> search({required Map<String, dynamic> filters}) async {
+    // Calculate the start date and end date for the last seven days
+    DateTime now = DateTime.now();
+    DateTime sevenDaysAgo = now.subtract(Duration(days: 7));
+
+    // Format the dates to match the format in your data
+    DateFormat dateFormat =
+        DateFormat('yyyy-MM-dd'); // Adjust the format as needed
+    String formattedSevenDaysAgo = dateFormat.format(sevenDaysAgo);
+    String formattedNow = dateFormat.format(now);
+
+    return Future.value(clientsBox.values
+        .filter((f) => f.name.startsWith(filters["value"]))
+        .map((e) => {
+              "id": e.id,
+              "name": e.name,
+              "phoneNumber": e.phone,
+              "clientType": e.clientType,
+              "receipts": quantityValuesBox.values
+                  .filter((f) =>
+                      f.clientId.compareTo(e.id) == 0 &&
+                      // Filter receipts within the last seven days
+                      dateFormat
+                              .format(f.date)
+                              .compareTo(formattedSevenDaysAgo) >=
+                          0 &&
+                      dateFormat.format(f.date).compareTo(formattedNow) <= 0)
+                  .map((e) => {
+                        "dateTime": e.date,
+                        "quantity": e.quantityValue,
+                        "type": e.type,
+                        "bont": e.bont,
+                        "tankNumber": e.tankNumber,
+                        "id": e.id
+                      }),
+            })
+        .toList());
+  }
+
   Future<dynamic> getDailyClientsWithFilters(
       {required bool isExporter, required bool isToDay}) async {
     if (isToDay) {
@@ -68,6 +108,13 @@ class HiveLocalDatabase {
                 "clientType": e.clientType,
                 "receipts": quantityValuesBox.values
                     .filter((f) => f.clientId.compareTo(e.id) == 0)
+                    .filter((f) =>
+                        (DateTime(f.date.year, f.date.month, f.date.day)
+                                .compareTo(DateTime(
+                                    DateTime.now().year,
+                                    DateTime.now().month,
+                                    DateTime.now().day)) ==
+                            0))
                     .map((e) => {
                           "dateTime": e.date,
                           "quantity": e.quantityValue,
@@ -125,7 +172,6 @@ class HiveLocalDatabase {
 
   Future<double> getBalance() {
     try {
-      print(balanceBox.values.first);
       return Future.value(balanceBox.values.first);
     } catch (e) {
       return Future.value(0);

@@ -55,13 +55,13 @@ class DefaultButton extends StatelessWidget {
       child: ElevatedButton(
         style: buttonStyle ??
             Theme.of(context).elevatedButtonTheme.style!.copyWith(
-                elevation: MaterialStatePropertyAll(elevation),
-                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                elevation: WidgetStatePropertyAll(elevation),
+                shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                     side: borderColor != null
                         ? BorderSide(color: borderColor!)
                         : BorderSide.none,
                     borderRadius: BorderRadius.circular(radius.r))),
-                backgroundColor: MaterialStatePropertyAll(background)),
+                backgroundColor: WidgetStatePropertyAll(background)),
         onPressed: onPressed,
         child: Padding(
           padding: padding ?? const EdgeInsets.symmetric(),

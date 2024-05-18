@@ -12,3 +12,5 @@ class SearchAboutClient extends SearchEvent {
 
   SearchAboutClient({required this.value});
 }
+
+class SearchCleanEvent extends SearchEvent {}

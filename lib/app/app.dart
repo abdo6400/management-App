@@ -15,6 +15,7 @@ import '../core/bloc/global_cubit/theme_cubit.dart';
 import '../core/utils/app_strings.dart';
 import '../features/home/presentation/bloc/client_search_bloc/client_search_bloc.dart';
 import '../features/home/presentation/bloc/receipt_bloc/recepit_bloc.dart';
+import '../features/search/presentation/bloc/search_bloc.dart';
 import 'service_locator.dart';
 
 class UserApp extends StatelessWidget {
@@ -43,6 +44,7 @@ class UserApp extends StatelessWidget {
           BlocProvider(
               create: (context) => sl<BalanceBloc>()..add(GetBalanceEvent())),
           BlocProvider(create: (context) => sl<RecepitBloc>()),
+           BlocProvider(create: (context) => sl<SearchBloc>()),
         ],
         child: BlocBuilder<ThemeCubit, ThemeState>(
           builder: (context, mode) {

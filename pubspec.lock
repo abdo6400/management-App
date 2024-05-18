@@ -686,7 +686,7 @@ packages:
     source: hosted
     version: "1.0.0+1"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
@@ -789,6 +789,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.8.0"
+  material_table_view:
+    dependency: "direct main"
+    description:
+      name: material_table_view
+      sha256: e648bbfbef20f72c84ec128419c7fc9de59deea6221043ee26b89cac2acdeec6
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.2"
   meta:
     dependency: transitive
     description:
@@ -1162,6 +1170,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: "9e8bac2367d03bd902844f59e866c0e7b1e10b0b8fa5a6a926c0d8ae8c344533"
+      url: "https://pub.dev"
+    source: hosted
+    version: "25.2.4"
+  syncfusion_flutter_datagrid:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_datagrid
+      sha256: "6d73047760e76c7bbdde1cc4c3ee6f9510fee4cf9bf6ac3e70aee10f6860d605"
+      url: "https://pub.dev"
+    source: hosted
+    version: "25.2.4"
   term_glyph:
     dependency: transitive
     description:

@@ -30,6 +30,11 @@ import '../features/home/domain/usecases/delete_receipt_usecase.dart';
 import '../features/home/domain/usecases/edit_receipt_usecase.dart';
 import '../features/home/presentation/bloc/client_search_bloc/client_search_bloc.dart';
 import '../features/home/presentation/bloc/receipt_bloc/recepit_bloc.dart';
+import '../features/search/data/datasources/search_local_data_source.dart';
+import '../features/search/data/repositories/search_repository_impl.dart';
+import '../features/search/domain/repositories/search_repository.dart';
+import '../features/search/domain/usecases/search_with_filters_usecase.dart';
+import '../features/search/presentation/bloc/search_bloc.dart';
 import '/core/bloc/global_cubit/locale_cubit.dart';
 import '/core/bloc/global_cubit/theme_cubit.dart';
 
@@ -74,6 +79,7 @@ Future<void> _app() async {
   sl.registerLazySingleton<ClientSearchBloc>(() => ClientSearchBloc(sl()));
   sl.registerLazySingleton<BalanceBloc>(() => BalanceBloc(sl()));
   sl.registerLazySingleton<RecepitBloc>(() => RecepitBloc(sl(), sl(), sl()));
+  sl.registerLazySingleton<SearchBloc>(() => SearchBloc(sl()));
   //! Use cases
   sl.registerLazySingleton<AddClientUsecase>(
       () => AddClientUsecase(repository: sl()));
@@ -88,16 +94,22 @@ Future<void> _app() async {
       () => EditReceiptUsecase(repository: sl()));
   sl.registerLazySingleton<DeleteReceiptUsecase>(
       () => DeleteReceiptUsecase(repository: sl()));
+sl.registerLazySingleton<SearchWithFiltersUsecase>(
+      () => SearchWithFiltersUsecase(repository: sl()));
   //! repositories
   sl.registerLazySingleton<ClientRepository>(
       () => CLientRepositoryImpl(dataSource: sl()));
   sl.registerLazySingleton<HomeRepository>(
       () => HomeRepositoryImpl(dataSource: sl()));
+  sl.registerLazySingleton<SearchRepository>(
+      () => SearchRepositoryImpl(dataSource: sl()));
   //! Data sources
   sl.registerLazySingleton<HomeLocalDataSource>(
       () => HomeLocalDataSourceImpl(localConsumer: sl()));
   sl.registerLazySingleton<ClientLocalDataSource>(
       () => ClientLocalDataSourceImpl(localConsumer: sl()));
+  sl.registerLazySingleton<SearchLocalDataSource>(
+      () => SearchLocalDataSourceImpl(localConsumer: sl()));
 }
 
 Future<void> _authInit() async {

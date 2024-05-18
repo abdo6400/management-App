@@ -75,4 +75,8 @@ class AppStrings {
   static const receiptDeleted = "receiptDeleted";
   static const noImportersBeAddedYet = "noImportersBeAddedYet";
   static const noExportersBeAddedYet = "noExportersBeAddedYet";
+  static const totalQuantity = "totalQuantity";
+  static const day = "day";
+  static const noResultsForSearch = "noResultsForSearch";
+  static const searchAboutClient = "searchAboutClient";
 }

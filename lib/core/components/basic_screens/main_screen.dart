@@ -56,7 +56,7 @@ class MainScreen extends StatelessWidget {
                 addLeadingButton: false,
                 appBarText: e["title"].toString(),
                 backgroundColor: AppColors.white,
-                elevation: 2,
+                elevation: 0.5,
               ),
               body: e["screen"],
             ),
