@@ -73,4 +73,6 @@ class AppStrings {
   static const receiptAdded = "receiptAdded";
   static const receiptEdited = "receiptEdited";
   static const receiptDeleted = "receiptDeleted";
+  static const noImportersBeAddedYet = "noImportersBeAddedYet";
+  static const noExportersBeAddedYet = "noExportersBeAddedYet";
 }

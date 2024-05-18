@@ -3,6 +3,7 @@ import 'package:baraneq/core/components/default_components/default_message_card.
 import 'package:baraneq/features/home/presentation/bloc/exporter_bloc/exporter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/components/app_components/client_card_compenent.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/app_values.dart';
@@ -23,6 +24,12 @@ class ExportersScreen extends StatelessWidget {
               title: AppStrings.someThingWentWrong,
               subTitle: state.message);
         } else if (state is ExportersClientsLoadedState) {
+          if (state.clients.isEmpty) {
+            return DefaultMessageCard(
+                sign: "!",
+                title: AppStrings.noExportersBeAddedYet,
+                subTitle: "");
+          }
           return Accordion(
             openAndCloseAnimation: true,
             headerBackgroundColor: Theme.of(context).primaryColor,
@@ -35,7 +42,10 @@ class ExportersScreen extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: AppColors.white,
                             fontSize: AppValues.font * 18)),
-                    content: const MyDataTable(),
+                    content: CLientCardComponent(
+                      client: e,
+                      enableEditing: true,
+                    ),
                     leftIcon: CircleAvatar(
                       child: Text(e.name.characters.first),
                     ),

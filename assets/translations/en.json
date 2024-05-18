@@ -68,5 +68,7 @@
     "receiptAdded": "receipt added",
     "receiptEdited": "receipt edited",
     "receiptDeleted": "receipt deleted",
-    "export": "export"
+    "export": "export",
+    "noImportersBeAddedYet": "no importers have been added yet",
+    "noExportersBeAddedYet": "no exporters have been added yet"
 }

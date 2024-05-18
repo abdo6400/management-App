@@ -2,8 +2,12 @@ import 'package:accordion/accordion.dart';
 import 'package:baraneq/config/locale/app_localizations.dart';
 import 'package:baraneq/core/utils/app_strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/components/app_components/client_card_compenent.dart';
+import '../../../../core/components/default_components/default_message_card.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_values.dart';
+import '../bloc/search_bloc.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
@@ -31,7 +35,8 @@ class SearchScreen extends StatelessWidget {
                   child: SearchBar(
                     hintText: AppStrings.search.tr(context),
                     trailing: [Icon(Icons.search)],
-                    surfaceTintColor: MaterialStateColor.resolveWith((states) => AppColors.white),
+                    surfaceTintColor: MaterialStateColor.resolveWith(
+                        (states) => AppColors.white),
                     elevation: MaterialStateProperty.all(0.8),
                     textStyle: MaterialStateProperty.all(
                         Theme.of(context).textTheme.bodyMedium),
@@ -40,28 +45,54 @@ class SearchScreen extends StatelessWidget {
                   ),
                 )),
             Expanded(
-              flex: 10,
-              child: Accordion(
-                openAndCloseAnimation: true,
-                headerBackgroundColor: AppColors.primary,
-                maxOpenSections: 1,
-                initialOpeningSequenceDelay: 1,
-                children: [
-                  AccordionSection(
-                    header: const Text('DataTable', style: headerStyle),
-                    content: const MyDataTable(),
-                  ),
-                  AccordionSection(
-                    header: const Text('DataTable', style: headerStyle),
-                    content: const MyDataTable(),
-                  ),
-                  AccordionSection(
-                    header: const Text('DataTable', style: headerStyle),
-                    content: const MyDataTable(),
-                  )
-                ],
-              ),
-            ),
+                flex: 10,
+                child: BlocBuilder<SearchBloc, SearchState>(
+                  builder: (contImt, state) {
+                    if (state is SearchLoadingState) {
+                      return CircularProgressIndicator();
+                    } else if (state is SearchErrorState) {
+                      return DefaultMessageCard(
+                          sign: "!",
+                          title: AppStrings.someThingWentWrong,
+                          subTitle: state.message);
+                    } else if (state is SearchLoadedState) {
+                      if (state.clients.isEmpty) {
+                        return DefaultMessageCard(
+                            sign: "🔍", title: AppStrings.search, subTitle: "");
+                      }
+                      return Accordion(
+                        openAndCloseAnimation: true,
+                        headerBackgroundColor: Theme.of(context).primaryColor,
+                        maxOpenSections: 1,
+                        initialOpeningSequenceDelay: 1,
+                        children: state.clients
+                            .map(
+                              (e) => AccordionSection(
+                                header: Text(e.name,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(
+                                            color: AppColors.white,
+                                            fontSize: AppValues.font * 18)),
+                                content: CLientCardComponent(
+                                  client: e,
+                                  enableEditing: true,
+                                ),
+                                leftIcon: CircleAvatar(
+                                  child: Text(e.name.characters.first),
+                                ),
+                                headerPadding: EdgeInsets.symmetric(
+                                    horizontal: AppValues.paddingWidth * 10,
+                                    vertical: AppValues.paddingHeight * 10),
+                              ),
+                            )
+                            .toList(),
+                      );
+                    }
+                    return CircularProgressIndicator();
+                  },
+                )),
           ],
         ),
       )),

@@ -31,7 +31,7 @@ class DefaultMessageCard extends StatelessWidget {
               child: Text(
                 sign,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: AppColors.blueLight, fontSize: AppValues.font * 26),
+                    color: AppColors.blueLight, fontSize: AppValues.font * 28),
               ),
             ),
           ),

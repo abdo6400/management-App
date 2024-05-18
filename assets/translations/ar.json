@@ -68,5 +68,7 @@
     "receiptAdded": "تمت إضافة الإيصال",
     "receiptEdited": "تم تعديل الإيصال",
     "receiptDeleted": "تم حذف الإيصال",
-    "export": "تصدير"
+    "export": "تصدير",
+    "noImportersBeAddedYet": "لم يتم إضافة مستوردين بعد",
+    "noExportersBeAddedYet": "لم يتم إضافة مصدرين بعد"
 }
