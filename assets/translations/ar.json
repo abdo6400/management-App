@@ -73,5 +73,17 @@
     "noExportersBeAddedYet": "لم يتم إضافة مصدرين بعد",
     "totalQuantity": "الكمية الإجمالية",
     "day": "اليوم",
-    "searchAboutClient": "البحث عن عميل"
+    "searchAboutClient": "البحث عن عميل",
+    "share": "مشاركة",
+    "print": "طباعة",
+    "exportExecl": "تصدير إلى إكسل",
+    "shareResult": "تمت مشاركة ",
+    "printFailed": "فشلت الطباعة",
+    "printSuccess": "تمت الطباعة",
+    "ExportExeclFileFailed": "فشل تصدير ملف إكسل",
+    "ExportExeclFileSuccess": "نجح تصدير ملف إكسل",
+    "onlyOneClient": "عميل واحد فقط",
+    "setOfClients": "مجموعة من العملاء",
+    "allClients": "جميع العملاء",
+    "noInvoicesFound": "لم يتم العثور على فواتير"
 }

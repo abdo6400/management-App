@@ -79,4 +79,16 @@ class AppStrings {
   static const day = "day";
   static const noResultsForSearch = "noResultsForSearch";
   static const searchAboutClient = "searchAboutClient";
+  static const share = "share";
+  static const print = "print";
+  static const exportExecl = "exportExecl";
+  static const shareResult = "shareResult";
+  static const printFailed = "printFailed";
+  static const printSuccess = "printSuccess";
+  static const exportExeclFileFailed = "ExportExeclFileFailed";
+  static const exportExeclFileSuccess = "ExportExeclFileSuccess";
+  static const onlyOneClient = "onlyOneClient";
+  static const setOfClients = "setOfClients";
+  static const allClients = "allClients";
+  static const noInvoicesFound = "noInvoicesFound";
 }

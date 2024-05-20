@@ -7,10 +7,10 @@ abstract class SearchEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class SearchAboutClient extends SearchEvent {
+class SearchAboutClientEvent extends SearchEvent {
   final Map<String, dynamic> value;
 
-  SearchAboutClient({required this.value});
+  SearchAboutClientEvent({required this.value});
 }
 
 class SearchCleanEvent extends SearchEvent {}

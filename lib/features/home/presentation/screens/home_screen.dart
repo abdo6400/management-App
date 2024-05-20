@@ -2,8 +2,11 @@ import 'package:baraneq/config/locale/app_localizations.dart';
 import 'package:baraneq/core/utils/app_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:quickalert/quickalert.dart';
+import '../../../../core/components/app_components/options_card_component.dart';
+import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../bloc/balance_bloc/balance_bloc.dart';
 import '../bloc/exporter_bloc/exporter_bloc.dart';
@@ -123,7 +126,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ],
                       ),
                     ),
-                  )
+                  ),
+
+                  //  OptionsCardComponent(clients: []),
                 ],
               ),
             )),

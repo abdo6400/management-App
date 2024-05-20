@@ -8,6 +8,11 @@ import 'package:baraneq/features/home/domain/usecases/get_clients_with_filters_u
 import 'package:baraneq/features/home/presentation/bloc/balance_bloc/balance_bloc.dart';
 import 'package:baraneq/features/home/presentation/bloc/exporter_bloc/exporter_bloc.dart';
 import 'package:baraneq/features/home/presentation/bloc/importers_bloc/importers_bloc.dart';
+import 'package:baraneq/features/invoices/data/datasources/invoices_local_data_source.dart';
+import 'package:baraneq/features/invoices/data/repositories/invoices_repository_impl.dart';
+import 'package:baraneq/features/invoices/domain/repositories/invoices_repository.dart';
+import 'package:baraneq/features/invoices/domain/usecases/account_statement_with_filters_usecase.dart';
+import 'package:baraneq/features/invoices/presentation/bloc/invoices_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -80,6 +85,7 @@ Future<void> _app() async {
   sl.registerLazySingleton<BalanceBloc>(() => BalanceBloc(sl()));
   sl.registerLazySingleton<RecepitBloc>(() => RecepitBloc(sl(), sl(), sl()));
   sl.registerLazySingleton<SearchBloc>(() => SearchBloc(sl()));
+  sl.registerLazySingleton<InvoicesBloc>(() => InvoicesBloc(sl()));
   //! Use cases
   sl.registerLazySingleton<AddClientUsecase>(
       () => AddClientUsecase(repository: sl()));
@@ -94,8 +100,10 @@ Future<void> _app() async {
       () => EditReceiptUsecase(repository: sl()));
   sl.registerLazySingleton<DeleteReceiptUsecase>(
       () => DeleteReceiptUsecase(repository: sl()));
-sl.registerLazySingleton<SearchWithFiltersUsecase>(
+  sl.registerLazySingleton<SearchWithFiltersUsecase>(
       () => SearchWithFiltersUsecase(repository: sl()));
+  sl.registerLazySingleton<AccountStatementWithFiltersUsecase>(
+      () => AccountStatementWithFiltersUsecase(repository: sl()));
   //! repositories
   sl.registerLazySingleton<ClientRepository>(
       () => CLientRepositoryImpl(dataSource: sl()));
@@ -103,6 +111,8 @@ sl.registerLazySingleton<SearchWithFiltersUsecase>(
       () => HomeRepositoryImpl(dataSource: sl()));
   sl.registerLazySingleton<SearchRepository>(
       () => SearchRepositoryImpl(dataSource: sl()));
+  sl.registerLazySingleton<InvoicesRepository>(
+      () => InvoicesRepositoryImpl(dataSource: sl()));
   //! Data sources
   sl.registerLazySingleton<HomeLocalDataSource>(
       () => HomeLocalDataSourceImpl(localConsumer: sl()));
@@ -110,6 +120,8 @@ sl.registerLazySingleton<SearchWithFiltersUsecase>(
       () => ClientLocalDataSourceImpl(localConsumer: sl()));
   sl.registerLazySingleton<SearchLocalDataSource>(
       () => SearchLocalDataSourceImpl(localConsumer: sl()));
+  sl.registerLazySingleton<InvoicesLocalDataSource>(
+      () => InvoicesLocalDataSourceImpl(localConsumer: sl()));
 }
 
 Future<void> _authInit() async {

@@ -54,18 +54,18 @@ class HiveLocalDatabase {
   }
 
   Future<dynamic> search({required Map<String, dynamic> filters}) async {
-    // Calculate the start date and end date for the last seven days
-    DateTime now = DateTime.now();
-    DateTime sevenDaysAgo = now.subtract(Duration(days: 7));
+    DateTime? fromDate = filters["fromDate"];
+    DateTime? toDate = filters["toDate"];
+    String? valueFilter = filters["value"];
 
-    // Format the dates to match the format in your data
-    DateFormat dateFormat =
-        DateFormat('yyyy-MM-dd'); // Adjust the format as needed
-    String formattedSevenDaysAgo = dateFormat.format(sevenDaysAgo);
-    String formattedNow = dateFormat.format(now);
-
+    List<String> clients = [];
+    if (fromDate != null && toDate != null) {
+      clients = await getClientIdsWithinDateDuration(fromDate, toDate);
+    }
     return Future.value(clientsBox.values
-        .filter((f) => f.name.startsWith(filters["value"]))
+        .filter((f) => valueFilter == null || f.name.startsWith(valueFilter))
+        .filter((f) =>
+            (fromDate == null && toDate == null) || (clients).contains(f.id))
         .map((e) => {
               "id": e.id,
               "name": e.name,
@@ -74,12 +74,10 @@ class HiveLocalDatabase {
               "receipts": quantityValuesBox.values
                   .filter((f) =>
                       f.clientId.compareTo(e.id) == 0 &&
-                      // Filter receipts within the last seven days
-                      dateFormat
-                              .format(f.date)
-                              .compareTo(formattedSevenDaysAgo) >=
-                          0 &&
-                      dateFormat.format(f.date).compareTo(formattedNow) <= 0)
+                      (fromDate == null ||
+                          toDate == null ||
+                          f.date.isBetween(
+                              fromDate, toDate.add(Duration(days: 1)))))
                   .map((e) => {
                         "dateTime": e.date,
                         "quantity": e.quantityValue,
@@ -87,7 +85,8 @@ class HiveLocalDatabase {
                         "bont": e.bont,
                         "tankNumber": e.tankNumber,
                         "id": e.id
-                      }),
+                      })
+                  .toList(),
             })
         .toList());
   }
@@ -147,6 +146,21 @@ class HiveLocalDatabase {
                         "id": e.id
                       }),
             })
+        .toList());
+  }
+
+  Future<List<String>> getClientIdsWithinDateDuration(
+      DateTime fromDate, DateTime toDate) async {
+    DateTime fromDateNormalized =
+        DateTime(fromDate.year, fromDate.month, fromDate.day);
+    DateTime toDateNormalized =
+        DateTime(toDate.year, toDate.month, toDate.day).add(Duration(days: 1));
+
+    return Future.value(quantityValuesBox.values
+        .filter((f) {
+          return f.date.isBetween(fromDateNormalized, toDateNormalized);
+        })
+        .map((e) => e.clientId)
         .toList());
   }
 

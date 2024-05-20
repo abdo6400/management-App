@@ -73,5 +73,17 @@
     "noExportersBeAddedYet": "no exporters have been added yet",
     "totalQuantity": "total quantity",
     "day": "day",
-    "searchAboutClient": "search about client"
+    "searchAboutClient": "search about client",
+    "share": "share",
+    "print": "print",
+    "exportExecl": "export to Excel",
+    "shareResult": "share result",
+    "printFailed": "print failed",
+    "printSuccess": "print success",
+    "ExportExeclFileFailed": "export Excel file failed",
+    "ExportExeclFileSuccess": "export Excel file success",
+    "onlyOneClient": "only one client",
+    "setOfClients": "set of clients",
+    "allClients": "all clients",
+    "noInvoicesFound": "no invoices found"
 }

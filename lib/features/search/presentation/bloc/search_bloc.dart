@@ -10,7 +10,7 @@ part 'search_state.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchWithFiltersUsecase _searchAboutClient;
   SearchBloc(this._searchAboutClient) : super(SearchInitial()) {
-    on<SearchAboutClient>(onSearchEvent);
+    on<SearchAboutClientEvent>(onSearchEvent);
     on<SearchCleanEvent>(searchClean);
   }
 
@@ -19,7 +19,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     emit(SearchLoadedState(clients: []));
   }
 
-  void onSearchEvent(SearchAboutClient event, emit) async {
+  void onSearchEvent(SearchAboutClientEvent event, emit) async {
     emit(SearchLoadingState());
     emit(
       await _searchAboutClient(SearchFilters(filters: event.value)).then(

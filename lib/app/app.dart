@@ -2,6 +2,7 @@ import 'package:baraneq/features/client/presentation/bloc/client_bloc.dart';
 import 'package:baraneq/features/home/presentation/bloc/balance_bloc/balance_bloc.dart';
 import 'package:baraneq/features/home/presentation/bloc/exporter_bloc/exporter_bloc.dart';
 import 'package:baraneq/features/home/presentation/bloc/importers_bloc/importers_bloc.dart';
+import 'package:baraneq/features/invoices/presentation/bloc/invoices_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,7 +45,7 @@ class UserApp extends StatelessWidget {
           BlocProvider(
               create: (context) => sl<BalanceBloc>()..add(GetBalanceEvent())),
           BlocProvider(create: (context) => sl<RecepitBloc>()),
-           BlocProvider(create: (context) => sl<SearchBloc>()),
+           BlocProvider(create: (context) => sl<SearchBloc>()),      BlocProvider(create: (context) => sl<InvoicesBloc>()),
         ],
         child: BlocBuilder<ThemeCubit, ThemeState>(
           builder: (context, mode) {
