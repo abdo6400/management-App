@@ -4,8 +4,6 @@ import 'package:baraneq/features/home/presentation/bloc/client_search_bloc/clien
 import 'package:baraneq/features/home/presentation/components/create_receipt_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import '../../../../core/components/app_components/options_card_component.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/app_values.dart';
 
@@ -141,6 +139,18 @@ class CustomSearchDelegate extends SearchDelegate {
           itemCount: state.clients.length,
           itemBuilder: ((_, index) {
             return ListTile(
+              leading: CircleAvatar(
+                backgroundColor: AppColors.nearlyWhite,
+                child: Text(
+                  state.clients[index].clientType
+                      .toLowerCase()
+                      .tr(context)
+                      .substring(2),
+                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: AppValues.font * 10),
+                ),
+              ),
               title: Text(state.clients[index].name),
               onTap: () {
                 close(context, state.clients[index]);

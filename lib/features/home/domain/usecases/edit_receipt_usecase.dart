@@ -16,16 +16,16 @@ class EditReceiptUsecase implements UseCase<bool, EditReceiptParams> {
 }
 
 class EditReceiptParams {
-  final String type;
-  final double bont;
-  final double quantityValue;
+  String? type;
+  double? bont;
+  double? quantityValue;
   final String id;
-  final String tankNumber;
+  String? tankNumber;
   EditReceiptParams(
-      {required this.quantityValue,
-      required this.type,
-      required this.bont,
-      required this.tankNumber,
+      {this.quantityValue,
+      this.type,
+      this.bont,
+      this.tankNumber,
       required this.id});
 
   Map<String, dynamic> toJson() {

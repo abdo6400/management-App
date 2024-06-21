@@ -5,13 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/utils/app_colors.dart';
 
 class AppTextTheme {
-  static TextTheme lightTextTheme = GoogleFonts.cairoTextTheme(TextTheme(
+  static TextTheme lightTextTheme = TextTheme(
     displayLarge: TextStyle(
         fontSize: 20.sp, fontWeight: FontWeight.normal, color: AppColors.black),
     // Page titles
     bodyLarge:
         TextStyle(fontSize: 14.sp, color: AppColors.black), // Paragraph text
-    titleLarge: TextStyle(fontSize: 21.sp, color: AppColors.black,fontWeight: FontWeight.w500),
+    titleLarge: TextStyle(
+        fontSize: 21.sp, color: AppColors.black, fontWeight: FontWeight.w500),
     titleMedium: TextStyle(
         fontSize: 14.sp,
         fontWeight: FontWeight.w500,
@@ -25,7 +26,7 @@ class AppTextTheme {
         fontSize: 14.sp,
         fontWeight: FontWeight.w500,
         color: AppColors.black), // Buttons, Tabs
-  ));
+  );
   static TextTheme darkTextTheme = GoogleFonts.cairoTextTheme(TextTheme(
     displayLarge: TextStyle(
         fontSize: 20.sp,

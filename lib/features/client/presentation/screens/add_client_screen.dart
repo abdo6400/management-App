@@ -48,16 +48,16 @@ class AddClientScreen extends StatelessWidget {
     return Scaffold(
         body: BlocListener<ClientBloc, ClientState>(
       listener: _handleStates,
-      child:SingleChildScrollView(
-              child:  SizedBox(
-        height: AppValues.screenHeight,
-        width: AppValues.screenWidth,
-        child: Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: AppValues.paddingWidth * 10),
-          child:Form(
-            key: formKey,
-            child:  Column(
+      child: SingleChildScrollView(
+        child: SizedBox(
+          height: AppValues.screenHeight,
+          width: AppValues.screenWidth,
+          child: Padding(
+            padding:
+                EdgeInsets.symmetric(horizontal: AppValues.paddingWidth * 10),
+            child: Form(
+              key: formKey,
+              child: Column(
                 children: [
                   SizedBox(
                     height: AppValues.sizeHeight * 50,
@@ -125,9 +125,6 @@ class AddClientScreen extends StatelessWidget {
                     type: TextInputType.phone,
                     label: AppStrings.phoneNumber,
                     prefix: Icons.phone,
-                    validate: (value) =>
-                        CustomValidationHandler.isValidPhoneNumber(value)
-                            .translateWithNullSafetyString(context),
                   ),
                   SizedBox(
                     height: AppValues.sizeHeight * 20,

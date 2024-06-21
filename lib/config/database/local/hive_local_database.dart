@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:baraneq/core/utils/app_strings.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart' as hivef;
-import 'package:intl/intl.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:uuid/uuid.dart';
 import 'data_models/client.dart';
@@ -21,6 +22,46 @@ class HiveLocalDatabase {
     clientsBox = await Hive.openBox<ClientData>(clients);
     quantityValuesBox = await Hive.openBox<QuantityValue>(quantityValues);
     balanceBox = await Hive.openBox<double>(balanceValue);
+  }
+
+  Future<Map<String, double>> getTanks() async {
+    double tank1Sum = 0;
+    double tank2Sum = 0;
+    double tank3Sum = 0;
+    quantityValuesBox.values.forEach((e) {
+      if (clientsBox.values
+              .firstWhere((f) => f.id.compareTo(e.clientId) == 0)
+              .clientType ==
+          AppStrings.importer.toUpperCase()) {
+        e.quantityValues.entries.forEach((e) {
+          if (e.key == "1") {
+            tank1Sum = tank1Sum + double.parse(e.value);
+          } else if (e.key == "2") {
+            tank2Sum = tank2Sum + double.parse(e.value);
+          } else if (e.key == "3") {
+            tank3Sum = tank3Sum + double.parse(e.value);
+          }
+        });
+      } else {
+        e.quantityValues.entries.forEach((e) {
+          if (e.key == "1") {
+            tank1Sum = tank1Sum - double.parse(e.value);
+          } else if (e.key == "2") {
+            tank2Sum = tank2Sum - double.parse(e.value);
+          } else if (e.key == "3") {
+            tank3Sum = tank3Sum - double.parse(e.value);
+          }
+        });
+      }
+    });
+
+    final Map<String, double> summedQuantitiesByTankNumber = {
+      "1": tank1Sum,
+      "2": tank2Sum,
+      "3": tank3Sum
+    };
+
+    return summedQuantitiesByTankNumber;
   }
 
   void balance(double value, String clientId, {bool isDelete = false}) {
@@ -80,10 +121,9 @@ class HiveLocalDatabase {
                               fromDate, toDate.add(Duration(days: 1)))))
                   .map((e) => {
                         "dateTime": e.date,
-                        "quantity": e.quantityValue,
+                        "tanks": e.quantityValues,
                         "type": e.type,
                         "bont": e.bont,
-                        "tankNumber": e.tankNumber,
                         "id": e.id
                       })
                   .toList(),
@@ -116,10 +156,9 @@ class HiveLocalDatabase {
                             0))
                     .map((e) => {
                           "dateTime": e.date,
-                          "quantity": e.quantityValue,
+                          "tanks": e.quantityValues,
                           "type": e.type,
                           "bont": e.bont,
-                          "tankNumber": e.tankNumber,
                           "id": e.id
                         }),
               })
@@ -139,10 +178,9 @@ class HiveLocalDatabase {
                   .filter((f) => f.clientId.compareTo(e.id) == 0)
                   .map((e) => {
                         "dateTime": e.date,
-                        "quantity": e.quantityValue,
+                        "tanks": e.quantityValues,
                         "type": e.type,
                         "bont": e.bont,
-                        "tankNumber": e.tankNumber,
                         "id": e.id
                       }),
             })
@@ -174,14 +212,14 @@ class HiveLocalDatabase {
         .toList();
   }
 
-  Future<QuantityValue> getDailyQuantityValue(String clientId) async {
+  Future<List<QuantityValue>> getDailyQuantityValue(String clientId) async {
     return quantityValuesBox.values
         .filter((f) => (DateTime(f.date.year, f.date.month, f.date.day)
                 .compareTo(DateTime(DateTime.now().year, DateTime.now().month,
                     DateTime.now().day)) ==
             0))
         .filter((f) => f.clientId.compareTo(clientId) == 0)
-        .first;
+        .toList();
   }
 
   Future<double> getBalance() {
@@ -208,18 +246,21 @@ class HiveLocalDatabase {
   Future<bool> addReceipt({required Map<String, dynamic> receipt}) async {
     try {
       await quantityValuesBox.add(QuantityValue(
-        quantityValue: receipt["quantity"],
         date: DateTime.now(),
         type: receipt["type"],
         bont: receipt["bont"].toString(),
-        tankNumber: receipt["tankNumber"].toString(),
+        quantityValues: receipt["tanks"],
         clientId: receipt["clientId"],
         id: Uuid().v1(),
       ));
-      balance(receipt["quantity"], receipt["clientId"]);
+
+      List<String> values = receipt["tanks"].values.toList();
+
+      balance(values.sumByDouble((s) => double.parse(s)), receipt["clientId"]);
 
       return Future.value(true);
     } catch (e) {
+      print(e);
       return Future.value(false);
     }
   }
@@ -237,14 +278,18 @@ class HiveLocalDatabase {
         await quantityValuesBox.put(
             key,
             QuantityValue(
-                quantityValue: receipt["quantity"],
+                quantityValues: receipt["tanks"],
                 date: DateTime.now(),
                 type: receipt["type"],
                 bont: receipt["bont"],
-                tankNumber: receipt["tankNumber"],
                 clientId: quantityValuesBox.get(key)!.clientId,
                 id: receipt["id"]));
-        balance(receipt["quantity"], quantityValuesBox.get(key)!.clientId);
+
+        List<String> values = receipt["tanks"].values.toList();
+
+        balance(values.sumByDouble((s) => double.parse(s)),
+            quantityValuesBox.get(key)!.clientId);
+
         return Future.value(true);
       } else {
         return Future.value(false);
@@ -256,21 +301,28 @@ class HiveLocalDatabase {
 
   Future<bool> deleteReceipt({required String id}) async {
     try {
-      String? key;
+      print("***************");
+      final List<QuantityValue> ids = await getDailyQuantityValue(id);
 
-      quantityValuesBox.toMap().forEach((k, e) {
-        if (e.id.compareTo(id) == 0) {
-          key = k;
-        }
-      });
-      if (key != null) {
-        await quantityValuesBox.delete(key);
-        balance(quantityValuesBox.get(key)!.quantityValue,
+      ids.forEach((e) async {
+        int? key;
+        quantityValuesBox.toMap().forEach((k, e) {
+          if (e.id.compareTo(e.id) == 0) {
+            key = k;
+          }
+        });
+
+        balance(
+            quantityValuesBox
+                .get(key)!
+                .quantityValues
+                .values
+                .sumByDouble((s) => double.parse(s)),
             quantityValuesBox.get(key)!.clientId,
             isDelete: true);
-      } else {
-        return Future.value(false);
-      }
+        await quantityValuesBox.delete(key);
+      });
+
       return Future.value(true);
     } catch (e) {
       return Future.value(false);

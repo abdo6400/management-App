@@ -20,7 +20,7 @@ class CustomValidationHandler {
 
 //name
   static String? isValidName(String? name) {
-    if (name == null) {
+    if (name == null || name.isEmpty) {
       return AppStrings.pleaseEnterVaildName;
     } else {
       return null;

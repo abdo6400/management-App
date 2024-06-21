@@ -35,6 +35,11 @@ import '../features/home/domain/usecases/delete_receipt_usecase.dart';
 import '../features/home/domain/usecases/edit_receipt_usecase.dart';
 import '../features/home/presentation/bloc/client_search_bloc/client_search_bloc.dart';
 import '../features/home/presentation/bloc/receipt_bloc/recepit_bloc.dart';
+import '../features/profile/data/datasources/profile_local_data_source.dart';
+import '../features/profile/data/repositories/profile_repository_impl.dart';
+import '../features/profile/domain/repositories/profile_repositort.dart';
+import '../features/profile/domain/usecases/get_tanks_usecase.dart';
+import '../features/profile/presentation/bloc/profile_bloc.dart';
 import '../features/search/data/datasources/search_local_data_source.dart';
 import '../features/search/data/repositories/search_repository_impl.dart';
 import '../features/search/domain/repositories/search_repository.dart';
@@ -86,6 +91,7 @@ Future<void> _app() async {
   sl.registerLazySingleton<RecepitBloc>(() => RecepitBloc(sl(), sl(), sl()));
   sl.registerLazySingleton<SearchBloc>(() => SearchBloc(sl()));
   sl.registerLazySingleton<InvoicesBloc>(() => InvoicesBloc(sl()));
+  sl.registerLazySingleton<ProfileBloc>(() => ProfileBloc(sl()));
   //! Use cases
   sl.registerLazySingleton<AddClientUsecase>(
       () => AddClientUsecase(repository: sl()));
@@ -104,6 +110,9 @@ Future<void> _app() async {
       () => SearchWithFiltersUsecase(repository: sl()));
   sl.registerLazySingleton<AccountStatementWithFiltersUsecase>(
       () => AccountStatementWithFiltersUsecase(repository: sl()));
+
+      sl.registerLazySingleton<GetTanksUsecase>(
+      () => GetTanksUsecase(repository: sl()));
   //! repositories
   sl.registerLazySingleton<ClientRepository>(
       () => CLientRepositoryImpl(dataSource: sl()));
@@ -113,6 +122,8 @@ Future<void> _app() async {
       () => SearchRepositoryImpl(dataSource: sl()));
   sl.registerLazySingleton<InvoicesRepository>(
       () => InvoicesRepositoryImpl(dataSource: sl()));
+   sl.registerLazySingleton<ProfileRepositort>(
+      () => ProfileRepositoryImpl(dataSource: sl()));
   //! Data sources
   sl.registerLazySingleton<HomeLocalDataSource>(
       () => HomeLocalDataSourceImpl(localConsumer: sl()));
@@ -122,6 +133,8 @@ Future<void> _app() async {
       () => SearchLocalDataSourceImpl(localConsumer: sl()));
   sl.registerLazySingleton<InvoicesLocalDataSource>(
       () => InvoicesLocalDataSourceImpl(localConsumer: sl()));
+    sl.registerLazySingleton<ProfileLocalDataSource>(
+      () => ProfileLocalDataSourceImpl(localConsumer: sl()));
 }
 
 Future<void> _authInit() async {

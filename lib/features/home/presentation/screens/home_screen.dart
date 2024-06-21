@@ -2,12 +2,10 @@ import 'package:baraneq/config/locale/app_localizations.dart';
 import 'package:baraneq/core/utils/app_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:quickalert/quickalert.dart';
-import '../../../../core/components/app_components/options_card_component.dart';
-import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_strings.dart';
+import '../../../profile/presentation/bloc/profile_bloc.dart';
 import '../bloc/balance_bloc/balance_bloc.dart';
 import '../bloc/exporter_bloc/exporter_bloc.dart';
 import '../bloc/importers_bloc/importers_bloc.dart';
@@ -48,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         context.read<ExporterBloc>().add(GetExportersClientsEvent());
         context.read<ImportersBloc>().add(GetImportersClientsEvent());
         context.read<BalanceBloc>().add(GetBalanceEvent());
+        context.read<ProfileBloc>().add(GetTanksEvent());
       });
     } else if (state is RecepitEditLoadedState) {
       context.loaderOverlay.hide();
@@ -61,15 +60,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         context.read<ExporterBloc>().add(GetExportersClientsEvent());
         context.read<ImportersBloc>().add(GetImportersClientsEvent());
         context.read<BalanceBloc>().add(GetBalanceEvent());
+        context.read<ProfileBloc>().add(GetTanksEvent());
       });
     } else if (state is RecepitDeleteLoadedState) {
       context.loaderOverlay.hide();
       QuickAlert.show(
-          context: context,
-          type: QuickAlertType.success,
-          autoCloseDuration: Durations.extralong4,
-          showConfirmBtn: false,
-          title: AppStrings.receiptDeleted.tr(context));
+              context: context,
+              type: QuickAlertType.success,
+              autoCloseDuration: Durations.extralong4,
+              showConfirmBtn: false,
+              title: AppStrings.receiptDeleted.tr(context))
+          .then((value) {
+        context.read<ExporterBloc>().add(GetExportersClientsEvent());
+        context.read<ImportersBloc>().add(GetImportersClientsEvent());
+        context.read<BalanceBloc>().add(GetBalanceEvent());
+        context.read<ProfileBloc>().add(GetTanksEvent());
+      });
+      ;
     }
   }
 

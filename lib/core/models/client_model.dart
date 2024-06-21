@@ -20,17 +20,16 @@ class ClientModel extends Client {
 class MilkReceiptModel extends MilkReceipt {
   MilkReceiptModel(
       {required super.dateTime,
-      required super.quantity,
+      required super.tanks,
       required super.type,
       required super.bont,
-      required super.id,required super.tankNumber});
+      required super.id});
 
   factory MilkReceiptModel.fromJson(Map<String, dynamic> json) =>
       MilkReceiptModel(
           dateTime: json["dateTime"],
-          quantity: json["quantity"],
+          tanks: json["tanks"],
           type: json["type"],
           bont: json["bont"],
-          tankNumber: json["tankNumber"],
           id: json["id"]);
 }

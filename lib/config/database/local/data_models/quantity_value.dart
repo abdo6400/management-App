@@ -10,7 +10,7 @@ class QuantityValue {
   String id;
 
   @HiveField(2)
-  double quantityValue;
+  Map<String, String> quantityValues;
 
   @HiveField(3)
   DateTime date;
@@ -21,15 +21,12 @@ class QuantityValue {
   @HiveField(5)
   String type;
 
-  @HiveField(6)
-  String tankNumber;
-
-  QuantityValue(
-      {required this.quantityValue,
-      required this.date,
-      required this.type,
-      required this.bont,
-      required this.id,
-      required this.clientId,
-      required this.tankNumber});
+  QuantityValue({
+    required this.quantityValues,
+    required this.date,
+    required this.type,
+    required this.bont,
+    required this.id,
+    required this.clientId,
+  });
 }

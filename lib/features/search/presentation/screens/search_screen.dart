@@ -1,4 +1,3 @@
-import 'package:accordion/accordion.dart';
 import 'package:baraneq/config/locale/app_localizations.dart';
 import 'package:baraneq/core/utils/app_strings.dart';
 import 'package:baraneq/core/utils/commons.dart';
@@ -75,39 +74,12 @@ class SearchScreen extends StatelessWidget {
                       return DefaultMessageCard(
                           sign: "🔍", title: AppStrings.search, subTitle: "");
                     }
-                    return Accordion(
-                      openAndCloseAnimation: true,
-                      headerBackgroundColor: Theme.of(context).primaryColor,
-                      maxOpenSections: 1,
-                      initialOpeningSequenceDelay: 1,
+                    return ListView(
                       children: state.clients
-                          .map(
-                            (e) => AccordionSection(
-                              header: Text(e.name,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleLarge!
-                                      .copyWith(
-                                          color: AppColors.white,
-                                          fontSize: AppValues.font * 18)),
-                              content: CLientCardComponent(
+                          .map((e) => ClientCardComponent(
                                 client: e,
                                 enableEditing: false,
-                                context: context,
-                              ),
-                              leftIcon: CircleAvatar(
-                                backgroundColor: AppColors.nearlyWhite,
-                                child: Text(
-                                  e.name.characters.first,
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
-                                ),
-                              ),
-                              headerPadding: EdgeInsets.symmetric(
-                                  horizontal: AppValues.paddingWidth * 10,
-                                  vertical: AppValues.paddingHeight * 10),
-                            ),
-                          )
+                              ))
                           .toList(),
                     );
                   }

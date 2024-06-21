@@ -15,16 +15,14 @@ abstract class Client {
 
 abstract class MilkReceipt {
   final DateTime dateTime;
-  final double quantity;
   final String type;
   final String bont;
-  final String tankNumber;
+  final Map<String,String> tanks;
   final String id;
   MilkReceipt(
       {required this.dateTime,
-      required this.quantity,
+      required this.tanks,
       required this.type,
-      required this.tankNumber,
       required this.bont,
       required this.id});
 }

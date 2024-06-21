@@ -4,6 +4,7 @@ import 'package:baraneq/features/home/presentation/bloc/receipt_bloc/recepit_blo
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supercharged/supercharged.dart';
 import '../../../../core/components/default_components/default_button.dart';
 import '../../../../core/components/default_components/default_form_field.dart';
 import '../../../../core/entities/client.dart';
@@ -11,6 +12,7 @@ import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/app_values.dart';
 import '../../../../core/utils/custom_validation.dart';
+import 'dynamic_text_form_field.dart';
 
 class CreateReceiptComponent extends StatelessWidget {
   CreateReceiptComponent(
@@ -20,11 +22,28 @@ class CreateReceiptComponent extends StatelessWidget {
   final bool isExporter;
   final Client client;
   late final TextEditingController name;
-  static final TextEditingController quantity = TextEditingController(),
-      bont = TextEditingController(),
-      tank = TextEditingController();
+  static final TextEditingController bont = TextEditingController(),
+      quantity1 = TextEditingController(),
+      tank1 = TextEditingController(text: "1"),
+      quantity2 = TextEditingController(),
+      tank2 = TextEditingController(text: "2"),
+      quantity3 = TextEditingController(),
+      tank3 = TextEditingController(text: "3");
   static String type = AppStrings.pm.toUpperCase();
   static final formKey = GlobalKey<FormState>();
+
+  final Map<TextEditingController, TextEditingController> quantityFields = {
+    tank1: quantity1,
+    tank2: quantity2,
+    tank3: quantity3
+  };
+  void clear() {
+    quantity1.clear();
+    quantity2.clear();
+    quantity3.clear();
+    bont.clear();
+    type = AppStrings.pm.toUpperCase();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,18 +120,6 @@ class CreateReceiptComponent extends StatelessWidget {
                     height: AppValues.sizeHeight * 20,
                   ),
                   DefaultTextFormField(
-                    controller: quantity,
-                    type: TextInputType.phone,
-                    label: AppStrings.quantity,
-                    prefix: Icons.add_to_queue_outlined,
-                    validate: (value) =>
-                        CustomValidationHandler.isVaildCode(value)
-                            .translateWithNullSafetyString(context),
-                  ),
-                  SizedBox(
-                    height: AppValues.sizeHeight * 20,
-                  ),
-                  DefaultTextFormField(
                     controller: bont,
                     type: TextInputType.phone,
                     label: AppStrings.bont,
@@ -124,14 +131,8 @@ class CreateReceiptComponent extends StatelessWidget {
                   SizedBox(
                     height: AppValues.sizeHeight * 20,
                   ),
-                  DefaultTextFormField(
-                    controller: tank,
-                    type: TextInputType.phone,
-                    label: AppStrings.tank,
-                    prefix: Icons.propane_tank,
-                    validate: (value) =>
-                        CustomValidationHandler.isVaildCode(value)
-                            .translateWithNullSafetyString(context),
+                  DynamicTextFormField(
+                    fields: quantityFields,
                   ),
                   SizedBox(
                     height: AppValues.sizeHeight * 20,
@@ -142,15 +143,20 @@ class CreateReceiptComponent extends StatelessWidget {
                         child: DefaultButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
+                              Map<String, String> values = {};
+
+                              quantityFields.entries.forEach((e) {
+                                values[e.key.text] =
+                                    e.value.text.isEmpty ? "0" : e.value.text;
+                              });
+
                               context.read<RecepitBloc>().add(AddReceiptEvent(
                                   addReceiptParams: AddReceiptParams(
-                                      quantityValue: double.parse(
-                                          quantity.text.toString()),
+                                      tanks: values,
                                       type: type,
                                       bont: double.parse(bont.text.toString()),
-                                      tankNumber: tank.text,
                                       clientId: client.id)));
-                              // dispose();
+                              clear();
                               Navigator.pop(context, true);
                             }
                           },
@@ -166,6 +172,7 @@ class CreateReceiptComponent extends StatelessWidget {
                       Flexible(
                         child: DefaultButton(
                           onPressed: () {
+                            clear();
                             Navigator.of(context).pop();
                           },
                           borderColor: AppColors.error,

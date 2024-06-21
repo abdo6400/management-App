@@ -16,35 +16,33 @@ class QuantityValueAdapter extends TypeAdapter<QuantityValue> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
+
     return QuantityValue(
-      quantityValue: fields[2] as double,
+      quantityValues: (fields[2] as Map).cast<String, String>(),
       date: fields[3] as DateTime,
       type: fields[5] as String,
       bont: fields[4] as String,
       id: fields[1] as String,
       clientId: fields[0] as String,
-      tankNumber: fields[6] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, QuantityValue obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.clientId)
       ..writeByte(1)
       ..write(obj.id)
       ..writeByte(2)
-      ..write(obj.quantityValue)
+      ..write(obj.quantityValues)
       ..writeByte(3)
       ..write(obj.date)
       ..writeByte(4)
       ..write(obj.bont)
       ..writeByte(5)
-      ..write(obj.type)
-      ..writeByte(6)
-      ..write(obj.tankNumber);
+      ..write(obj.type);
   }
 
   @override

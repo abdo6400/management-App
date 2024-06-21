@@ -1,9 +1,15 @@
+import 'package:baraneq/config/locale/app_localizations.dart';
+import 'package:baraneq/core/utils/app_colors.dart';
+import 'package:baraneq/core/utils/app_values.dart';
 import 'package:flutter/material.dart' as material;
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
+import 'package:supercharged/supercharged.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 import 'dart:io';
 import 'package:open_file/open_file.dart' as open_file;
@@ -11,29 +17,22 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 // ignore: depend_on_referenced_packages
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 
-/*/**PdfPreview(
-          build: (format) => _generatePdf(format, title),
-        ) **/*/
+import '../entities/client.dart';
+import 'app_strings.dart';
+
 class CommenServices {
-  Future<Uint8List> generatePdf(PdfPageFormat format, String title) async {
-    final pdf = pw.Document(version: PdfVersion.pdf_1_5, compress: true);
-    final font = await PdfGoogleFonts.nunitoExtraLight();
+  static Future<Uint8List> generatePdf(PdfPageFormat format, String title,
+      {required List<Client> clients, required BuildContext ctx}) async {
+    final pdf = pw.Document(version: PdfVersion.pdf_1_5);
+    final font = await PdfGoogleFonts.cairoMedium();
 
     pdf.addPage(
       pw.Page(
         pageFormat: format,
         build: (context) {
-          return pw.Column(
-            children: [
-              pw.SizedBox(
-                width: double.infinity,
-                child: pw.FittedBox(
-                  child: pw.Text(title, style: pw.TextStyle(font: font)),
-                ),
-              ),
-              pw.SizedBox(height: 20),
-              pw.Flexible(child: pw.FlutterLogo())
-            ],
+          return pw.Container(
+            width: AppValues.screenWidth,
+            height: AppValues.screenHeight,
           );
         },
       ),
@@ -42,40 +41,7 @@ class CommenServices {
     return pdf.save();
   }
 
-  void onShareXFileFromAssets(material.BuildContext context) async {
-    final box = context.findRenderObject() as material.RenderBox?;
-    final scaffoldMessenger = material.ScaffoldMessenger.of(context);
-    final data = await rootBundle.load('assets/flutter_logo.png');
-    final buffer = data.buffer;
-    final shareResult = await Share.shareXFiles(
-      [
-        XFile.fromData(
-          buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
-          name: 'flutter_logo.png',
-          mimeType: 'image/png',
-        ),
-      ],
-      sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
-    );
-
-    scaffoldMessenger.showSnackBar(getResultSnackBar(shareResult));
-  }
-
-  material.SnackBar getResultSnackBar(ShareResult result) {
-    return material.SnackBar(
-      content: material.Column(
-        mainAxisSize: material.MainAxisSize.min,
-        crossAxisAlignment: material.CrossAxisAlignment.start,
-        children: [
-          material.Text("Share result: ${result.status}"),
-          if (result.status == ShareResultStatus.success)
-            material.Text("Shared to: ${result.raw}")
-        ],
-      ),
-    );
-  }
-
-  Future<void> generateExcel() async {
+  static Future<void> generateExcel({required List<Client> clients}) async {
     //Create a Excel document.
 
     //Creating a workbook.
@@ -243,7 +209,8 @@ class CommenServices {
     await saveAndLaunchFile(bytes, 'Invoice.xlsx');
   }
 
-  Future<void> saveAndLaunchFile(List<int> bytes, String fileName) async {
+  static Future<void> saveAndLaunchFile(
+      List<int> bytes, String fileName) async {
     //Get the storage folder location using path_provider package.
     String? path;
     if (Platform.isAndroid ||
