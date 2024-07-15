@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../../core/utils/app_colors.dart';
 
@@ -27,7 +27,7 @@ class AppTextTheme {
         fontWeight: FontWeight.w500,
         color: AppColors.black), // Buttons, Tabs
   );
-  static TextTheme darkTextTheme = GoogleFonts.cairoTextTheme(TextTheme(
+  static TextTheme darkTextTheme = TextTheme(
     displayLarge: TextStyle(
         fontSize: 20.sp,
         fontWeight: FontWeight.normal,
@@ -47,5 +47,5 @@ class AppTextTheme {
         fontSize: 14.sp,
         fontWeight: FontWeight.w500,
         color: AppColors.white), // Buttons, Tabs
-  ));
+  );
 }

@@ -1,8 +1,8 @@
+import 'package:baraneq/core/entities/search_client.dart';
+import 'package:baraneq/features/search/domain/entities/weekly_client.dart';
+import 'package:baraneq/features/search/domain/usecases/search_with_filters_usecase.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-
-import '../../../../core/entities/client.dart';
-import '../../domain/usecases/search_with_filters_usecase.dart';
 
 part 'search_event.dart';
 part 'search_state.dart';

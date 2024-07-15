@@ -134,7 +134,7 @@ extension ShowMultiSelect on BuildContext {
 
     showDialog(
         context: this,
-        barrierColor: AppColors.blueDarK.withOpacity(0.5),
+        barrierColor: AppColors.greenDarK.withOpacity(0.5),
         builder: ((context) {
           return Container(
               height: AppValues.screenHeight / 2,
@@ -190,7 +190,7 @@ extension ShowBottomSheet on BuildContext {
               //    width: AppSize.s90.w,
               //   height: AppSize.s4.h,
               decoration: const BoxDecoration(
-                color: AppColors.blueDarK,
+                color: AppColors.greenDarK,
                 //    borderRadius: BorderRadius.circular(AppSize.s12.r)
               ),
             ),

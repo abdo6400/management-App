@@ -1,4 +1,4 @@
-import '../../../../config/database/local/hive_local_database.dart';
+import '../../../../config/database/local/sql_local_database.dart';
 import '../../../../core/models/client_model.dart';
 
 abstract class InvoicesLocalDataSource {
@@ -7,17 +7,17 @@ abstract class InvoicesLocalDataSource {
 }
 
 class InvoicesLocalDataSourceImpl extends InvoicesLocalDataSource {
-  final HiveLocalDatabase _localConsumer;
+  final SqlLocalDatabase _localConsumer;
 
   InvoicesLocalDataSourceImpl({
-    required HiveLocalDatabase localConsumer,
+    required SqlLocalDatabase localConsumer,
   }) : _localConsumer = localConsumer;
 
   @override
   Future<List<ClientModel>> accoutStatementWithFilters(
       {required Map<String, dynamic> filters}) async {
     return List<ClientModel>.from(
-        (await _localConsumer.search(filters: filters))
+        (await _localConsumer.searchWithFilters(filters: filters))
             .map((e) => ClientModel.fromJson(e)));
   }
 }

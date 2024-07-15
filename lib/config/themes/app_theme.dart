@@ -11,6 +11,7 @@ class AppTheme {
     return ThemeData(
         useMaterial3: true,
         primaryColor: AppColors.primary,
+        fontFamily: 'Cairo',
         brightness: Brightness.light,
         textTheme: AppTextTheme.lightTextTheme,
         tabBarTheme: AppTapBarTheme.tabBarLightTheme,

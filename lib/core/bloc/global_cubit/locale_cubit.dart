@@ -16,7 +16,7 @@ class LocaleCubit extends Cubit<LocaleState> {
 
   Future<void> getSavedLang() async {
     final currentLangCode = await sl<CacheConsumer>()
-            .getStringData(key: MySharedKeys.language.name) ??
+            .getData(key: MySharedKeys.language.name) ??
         AppStrings.arabicCode;
     await sl<CacheConsumer>().saveData(
         key: MySharedKeys.language.name, value: AppStrings.arabicCode);

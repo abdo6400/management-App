@@ -91,4 +91,49 @@ class AppStrings {
   static const setOfClients = "setOfClients";
   static const allClients = "allClients";
   static const noInvoicesFound = "noInvoicesFound";
+  static const tanks = "tanks";
+  static const id = "id";
+  static const clientsNumber = "clientsNumber";
+  static const totalQuantityForAllClients = "totalQuantityForAllClients";
+  static const client = "client";
+  static const pdf = "pdf";
+  static const capacity = "capacity";
+  static const currentQuantity = "currentQuantity";
+  static const noTanksFound = "noTanksFound";
+  static const addTanks = "addTanks";
+  static const receiptsCount = "receiptsCount";
+  static const noClientsFound = "noClientsFound";
+  static const clients = "clients";
+  static const newTankAdded = "newTankAdded";
+  static const addNewTank = "addNewTank";
+  static const login = "login";
+  static const password = "password";
+  static const date = "date";
+  static const logout = "logout";
+  static const receiptType = "receiptType";
+  static const youShouldAddTankFirst = "youShouldAddTankFirst";
+  static const youShouldAddClientFirst = "youShouldAddClientFirst";
+  static const price = "price";
+  static const printReceipt = "printReceipt";
+  static const enterKiloPrice = "enterKiloPrice";
+  static const youChooseClientFirst = "youChooseClientFirst";
+
+  static const previous = "previous";
+
+  static const notEnoughQuantity = "notEnoughQuantity";
+
+  static const chooseTank = "chooseTankFirst";
+
+  static const confirme = "confirme";
+
+  static const doYOuWantToDeleteReceiptForSure =
+      "doYOuWantToDeleteReceiptForSure";
+
+  static const doYOuWantToDeleteTankForSure = "doYOuWantToDeleteTankForSure";
+  static const doYOuWantToDeleteClientForSure =
+      "doYOuWantToDeleteClientForSure";
+
+  static const weeklyReportfor ="weeklyReportfor";
+
+  static const receipts="receipts";
 }

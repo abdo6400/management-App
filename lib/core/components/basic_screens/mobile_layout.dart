@@ -3,7 +3,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+// import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../utils/app_colors.dart';
 import '../../utils/app_values.dart';
@@ -12,11 +12,13 @@ import '../default_components/default_appbar.dart';
 class MobileLayout extends StatelessWidget {
   const MobileLayout({super.key,required this.screens});
 final List<Map<String, dynamic>> screens;
-static final PersistentTabController controller =
-      PersistentTabController(initialIndex: 0);
+// static final PersistentTabController controller =
+//       PersistentTabController(initialIndex: 0);
   @override
   Widget build(BuildContext context) {
-    return  PersistentTabView(
+
+return Card();
+   /* return  PersistentTabView(
       controller: controller,
       context,
       /*floatingActionButton: SpeedDial(
@@ -118,5 +120,7 @@ static final PersistentTabController controller =
       navBarStyle:
           NavBarStyle.style12, // Choose the nav bar style with this property.
     );
+  */
+  
   }
 }

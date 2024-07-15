@@ -47,8 +47,8 @@ class CustomValidationHandler {
   }
 
 //password
-  static String? isValidPassword(String password) {
-    if (password.isEmpty) {
+  static String? isValidPassword(String? password) {
+    if (password == null || password.isEmpty) {
       return AppStrings.pleaseEnterVaildPassword;
     }
     // Check the length of the password

@@ -12,7 +12,7 @@ class SearchInitial extends SearchState {}
 class SearchLoadingState extends SearchState {}
 
 class SearchLoadedState extends SearchState {
-  final List<Client> clients;
+  final List<WeeklyClient> clients;
 
   SearchLoadedState({required this.clients});
 }

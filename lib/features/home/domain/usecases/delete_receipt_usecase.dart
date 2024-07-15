@@ -4,13 +4,13 @@ import 'package:dartz/dartz.dart';
 import '../../../../config/database/error/failures.dart';
 import '../../../../core/bloc/usecases/usecase.dart';
 
-class DeleteReceiptUsecase implements UseCase<bool, String> {
+class DeleteReceiptUsecase implements UseCase<bool, int> {
   final HomeRepository _repository;
 
   DeleteReceiptUsecase({required HomeRepository repository})
       : _repository = repository;
 
   @override
-  Future<Either<Failure, bool>> call(String params) =>
+  Future<Either<Failure, bool>> call(int params) =>
       _repository.deleteReceipt(id: params);
 }

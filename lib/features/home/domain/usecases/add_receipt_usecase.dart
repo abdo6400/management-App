@@ -17,16 +17,17 @@ class AddReceiptUsecase implements UseCase<bool, AddReceiptParams> {
 
 class AddReceiptParams {
   final String type;
+  final String time;
   final double bont;
-  final Map<String, String> tanks;
-  final String clientId;
+  final Map<int, double> quantities;
+  final int clientId;
   AddReceiptParams(
-      {required this.tanks,
+      {required this.quantities,
       required this.type,
       required this.bont,
-      required this.clientId});
+      required this.clientId,required this.time});
 
   Map<String, dynamic> toJson() {
-    return {"type": type, "bont": bont, "tanks": tanks, "clientId": clientId};
+    return {"type": type, "bont": bont, "quantities": quantities, "clientId": clientId, "time": time};
   }
 }

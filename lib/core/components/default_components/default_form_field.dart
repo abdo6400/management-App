@@ -1,5 +1,6 @@
 import 'package:baraneq/core/utils/commons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../config/locale/app_localizations.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_values.dart';
@@ -27,6 +28,7 @@ class DefaultTextFormField extends StatelessWidget {
   final Color? backgroundColor;
   final EdgeInsetsGeometry? contentPadding;
   final EdgeInsetsGeometry? margin;
+  final List<TextInputFormatter>? inputFormatters;
   const DefaultTextFormField(
       {super.key,
       required this.controller,
@@ -49,13 +51,16 @@ class DefaultTextFormField extends StatelessWidget {
       this.color,
       this.backgroundColor,
       this.radius = 16,
-      this.margin});
+      this.margin,
+      this.inputFormatters});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: inputFormatters,
       maxLines: maxLines,
       cursorColor: AppColors.primary,
+      
       controller: controller,
       keyboardType: type,
       obscureText: isPassword,
@@ -77,7 +82,8 @@ class DefaultTextFormField extends StatelessWidget {
           borderSide:
               BorderSide(color: color != null ? color! : AppColors.lightGrey),
         ),
-        contentPadding: contentPadding,
+        contentPadding: contentPadding ??
+            EdgeInsets.symmetric(vertical: AppValues.paddingHeight * 6),
         errorBorder: UnderlineInputBorder(
           borderRadius: BorderRadius.circular(radius!),
           borderSide: BorderSide(color: AppColors.error),
@@ -108,7 +114,7 @@ class DefaultTextFormField extends StatelessWidget {
         prefixIcon: prefix != null
             ? Icon(
                 prefix,
-                color: textColor ?? AppColors.primary,
+                color: textColor ?? AppColors.blueLight,
               )
             : null,
         suffixIcon: suffix != null

@@ -1,52 +1,66 @@
 import 'package:baraneq/config/locale/app_localizations.dart';
+import 'package:baraneq/core/utils/app_colors.dart';
 import 'package:baraneq/core/utils/app_values.dart';
+import 'package:baraneq/features/tanks/presentation/bloc/tanks_bloc/tanks_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:quickalert/quickalert.dart';
+import '../../../../config/database/local/pagination_values.dart';
 import '../../../../core/utils/app_strings.dart';
-import '../../../profile/presentation/bloc/profile_bloc.dart';
-import '../bloc/balance_bloc/balance_bloc.dart';
-import '../bloc/exporter_bloc/exporter_bloc.dart';
-import '../bloc/importers_bloc/importers_bloc.dart';
-import '../bloc/receipt_bloc/recepit_bloc.dart';
-import '../components/balance_component.dart';
+import '../../../client/presentation/bloc/client_bloc/client_information_bloc.dart';
+import '../bloc/blocs/balance_bloc/balance_bloc.dart';
+import '../bloc/blocs/clients_bloc/clients_bloc.dart';
+import '../bloc/blocs/receipt_bloc/recepit_bloc.dart';
+import '../bloc/cubits/appbar_cubit/appbar_cubit.dart';
+import '../bloc/cubits/tanks_cubit/tanks_cubit.dart';
+import '../components/statistics_card_component.dart';
 import '../components/custom_tab_bar_component.dart';
-import 'exporters_screen.dart';
-import 'importers_screen.dart';
+import '../components/receipts_table_component.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+  void getData(BuildContext context) {
+    final options = PaginationValues.getOptions();
+    if (context.read<AppbarCubit>().selected == 0) {
+      options['type'] = AppStrings.exporter.toUpperCase();
+    } else if (context.read<AppbarCubit>().selected == 1) {
+      options['type'] = AppStrings.importer.toUpperCase();
+    }
+    context.read<ClientsBloc>().add(GetClientsEvent(options: options));
+    context.read<BalanceBloc>().add(GetBalanceEvent());
+    context
+        .read<TanksBloc>()
+        .add(GetTanksEvent(options: PaginationValues.getOptions()));
+    context.read<ClientInformationBloc>().add(
+        GetClientsInformationEvent(options: PaginationValues.getOptions()));
+  }
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _handleStates(BuildContext context, RecepitState state) {
     if (state is RecepitLoadingState) {
       context.loaderOverlay.show();
     } else if (state is RecepitLoadErrorState) {
       context.loaderOverlay.hide();
+      context.read<TanksCubit>().clear();
       QuickAlert.show(
           context: context,
           type: QuickAlertType.error,
+          width: AppValues.screenWidth / 4,
           autoCloseDuration: Durations.extralong4,
           showConfirmBtn: false,
           title: AppStrings.someThingWentWrong.tr(context));
     } else if (state is RecepitAddLoadedState) {
       context.loaderOverlay.hide();
+      context.read<TanksCubit>().clear();
       QuickAlert.show(
               context: context,
               type: QuickAlertType.success,
               autoCloseDuration: Durations.extralong4,
               showConfirmBtn: false,
+              width: AppValues.screenWidth / 4,
               title: AppStrings.receiptAdded.tr(context))
           .then((value) {
-        context.read<ExporterBloc>().add(GetExportersClientsEvent());
-        context.read<ImportersBloc>().add(GetImportersClientsEvent());
-        context.read<BalanceBloc>().add(GetBalanceEvent());
-        context.read<ProfileBloc>().add(GetTanksEvent());
+        getData(context);
       });
     } else if (state is RecepitEditLoadedState) {
       context.loaderOverlay.hide();
@@ -55,12 +69,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               type: QuickAlertType.success,
               autoCloseDuration: Durations.extralong4,
               showConfirmBtn: false,
+              width: AppValues.screenWidth / 4,
               title: AppStrings.receiptEdited.tr(context))
           .then((value) {
-        context.read<ExporterBloc>().add(GetExportersClientsEvent());
-        context.read<ImportersBloc>().add(GetImportersClientsEvent());
-        context.read<BalanceBloc>().add(GetBalanceEvent());
-        context.read<ProfileBloc>().add(GetTanksEvent());
+        getData(context);
       });
     } else if (state is RecepitDeleteLoadedState) {
       context.loaderOverlay.hide();
@@ -69,27 +81,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               type: QuickAlertType.success,
               autoCloseDuration: Durations.extralong4,
               showConfirmBtn: false,
+              width: AppValues.screenWidth / 4,
               title: AppStrings.receiptDeleted.tr(context))
           .then((value) {
-        context.read<ExporterBloc>().add(GetExportersClientsEvent());
-        context.read<ImportersBloc>().add(GetImportersClientsEvent());
-        context.read<BalanceBloc>().add(GetBalanceEvent());
-        context.read<ProfileBloc>().add(GetTanksEvent());
+        getData(context);
       });
       ;
     }
-  }
-
-  late TabController tabController;
-  @override
-  void initState() {
-    super.initState();
-
-    tabController = TabController(
-      initialIndex: 0,
-      length: 2,
-      vsync: this,
-    );
   }
 
   @override
@@ -107,16 +105,40 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   SizedBox(
                     height: AppValues.sizeHeight * 10,
                   ),
-                  const Expanded(
-                    flex: 2,
-                    child: BalanceComponents(),
+                  Expanded(
+                    flex: 3,
+                    child: Row(
+                      children: [
+                        StatisticsCardComponent(
+                          title: AppStrings.balance,
+                          color: AppColors.primary,
+                          function: () {},
+                        ),
+                        StatisticsCardComponent(
+                          title: AppStrings.importer,
+                          function: () {},
+                        ),
+                        StatisticsCardComponent(
+                          title: AppStrings.exporter,
+                          function: () {},
+                        ),
+                        StatisticsCardComponent(
+                          title: AppStrings.clientsNumber,
+                          type: AppStrings.client,
+                          function: () {},
+                        )
+                      ],
+                    ),
                   ),
-                  const Divider(),
+                  SizedBox(
+                    height: AppValues.sizeHeight * 20,
+                  ),
                   Expanded(
                     flex: 2,
-                    child: CustomTabBarComponent(
-                      tabController: tabController,
-                    ),
+                    child: CustomTabBarComponent(),
+                  ),
+                  SizedBox(
+                    height: AppValues.sizeHeight * 20,
                   ),
                   Expanded(
                     flex: 10,
@@ -125,17 +147,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           top: AppValues.paddingHeight * 5,
                           right: AppValues.paddingWidth * 5,
                           left: AppValues.paddingWidth * 5),
-                      child: TabBarView(
-                        controller: tabController,
-                        children: [
-                          ImportersScreen(),
-                          ExportersScreen(),
-                        ],
-                      ),
+                      child: ReceiptsTableComponent(),
                     ),
                   ),
-
-                  //  OptionsCardComponent(clients: []),
+                  SizedBox(
+                    height: AppValues.sizeHeight * 10,
+                  ),
                 ],
               ),
             )),

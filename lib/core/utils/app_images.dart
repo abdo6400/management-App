@@ -17,4 +17,6 @@ class AppImages {
   static const check = "$iconsPath/check.svg";
   //app images
   static const homeCarve = "$imagesPath/home_carve.png";
+
+ static const loginBackground="$imagesPath/login_bg.jpg";
 }

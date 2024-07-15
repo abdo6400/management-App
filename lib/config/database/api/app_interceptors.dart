@@ -14,12 +14,12 @@ class AppIntercepters extends Interceptor {
       RequestOptions options, RequestInterceptorHandler handler) async {
     options.headers[HttpHeaders.acceptHeader] = ContentType.json;
     options.headers['authorization'] = await sl<CacheConsumer>()
-                .getStringData(key: MySharedKeys.apiToken.name) !=
+                .getData(key: MySharedKeys.apiToken.name) !=
             null
-        ? '${EndPoints.prefixToken} ${await sl<CacheConsumer>().getStringData(key: MySharedKeys.apiToken.name)}'
+        ? '${EndPoints.prefixToken} ${await sl<CacheConsumer>().getData(key: MySharedKeys.apiToken.name)}'
         : null;
     options.queryParameters['ln'] = await sl<CacheConsumer>()
-            .getStringData(key: MySharedKeys.language.name) ??
+            .getData(key: MySharedKeys.language.name) ??
         'en';
 
     super.onRequest(options, handler);

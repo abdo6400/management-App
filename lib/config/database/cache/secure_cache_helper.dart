@@ -1,54 +1,29 @@
-import 'package:secure_shared_preferences/secure_shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'cache_consumer.dart';
 
 class SecureCacheHelper extends CacheConsumer {
-  final SecureSharedPref sharedPref;
+  final FlutterSecureStorage sharedPref;
+
 
   SecureCacheHelper({required this.sharedPref});
   @override
   Future<void> clearData() async {
-    await sharedPref.clearAll();
+    await sharedPref.deleteAll();
   }
 
   @override
-  Future<int?> getIntData({required String key}) async {
-    return await sharedPref.getInt(key, isEncrypted: true);
-  }
-
-  @override
-  Future<double?> getDoubleData({required String key}) async {
-    return await sharedPref.getDouble(key, isEncrypted: true);
-  }
-
-  @override
-  Future<String?> getStringData({required String key}) async {
-    return await sharedPref.getString(key, isEncrypted: true);
-  }
-
-  @override
-  Future<bool?> getBoolData({required String key}) async {
-    return await sharedPref.getBool(key, isEncrypted: true);
+  Future<String?> getData({required String key}) async {
+    return await sharedPref.read(key: key);
   }
 
   @override
   Future<void> saveData({required String key, required value}) async {
-    if (value is bool) {
-      return await sharedPref.putBool(key, value, isEncrypted: true);
-    }
-    if (value is String) {
-      return await sharedPref.putString(key, value, isEncrypted: true);
-    }
-
-    if (value is int) {
-      return await sharedPref.putInt(key, value, isEncrypted: true);
-    } else {
-      return await sharedPref.putDouble(key, value, isEncrypted: true);
-    }
+    await sharedPref.write(key: key, value: value);
   }
 
   @override
   Future<void> clearValue({required String key}) async {
-    sharedPref.clearAll();
+    sharedPref.delete(key: key);
   }
 }

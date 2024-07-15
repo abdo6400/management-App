@@ -1,7 +1,10 @@
 import 'package:baraneq/config/locale/app_localizations.dart';
+import 'package:baraneq/config/routes/app_routes.dart';
 import 'package:baraneq/core/utils/app_values.dart';
+import 'package:baraneq/core/utils/commons.dart';
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
+import '../../../config/database/local/sql_local_database.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_images.dart';
 import '../../utils/app_strings.dart';
@@ -35,11 +38,12 @@ class _WindowsLayoutState extends State<WindowsLayout> {
                 flex: 5,
                 child: Column(
                   children: [
-                    Expanded(flex: 1, child: const CustomAppbar()),
+                    Expanded(flex: 1, child: CustomAppbar()),
                     Expanded(
-                        flex: 10,
+                        flex: 15,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: AppValues.paddingWidth * 40),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: AppValues.paddingWidth * 40),
                           child: widget.screens[selectedIndex]['screen'],
                         ))
                   ],
@@ -108,8 +112,38 @@ class CutomDrawerButton extends StatelessWidget {
   }
 }
 
+class ClockWidget extends StatelessWidget {
+  const ClockWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        StreamBuilder(
+          stream: Stream.periodic(const Duration(seconds: 1)),
+          builder: (context, snapshot) {
+            return Text(
+                DateFormat('MM/dd/yyyy \t\t\t hh:mm:ss').format(DateTime.now()),
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    fontWeight: FontWeight.w600,
+                    fontSize: AppValues.font * 15,
+                    color: AppColors.black));
+          },
+        ),
+        SizedBox(
+          width: AppValues.sizeWidth * 10,
+        ),
+        Icon(
+          Icons.lock_clock_rounded,
+          color: AppColors.primary,
+        ),
+      ],
+    );
+  }
+}
+
 class CustomAppbar extends StatelessWidget {
-  const CustomAppbar({super.key});
+  CustomAppbar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -121,13 +155,20 @@ class CustomAppbar extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(0),
       ),
-      elevation: 1,
+      elevation: 0.5,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: AppValues.marginWidth * 12),
-        child: const Row(
+        padding: EdgeInsets.symmetric(horizontal: AppValues.paddingWidth * 50),
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(),
+            ClockWidget(),
+            Row(
+              children: [
+                IconButton(onPressed: () => SqlLocalDatabase.instance.clearDatabase(), icon: Icon(Icons.delete_forever)),
+                IconButton(onPressed: () =>SqlLocalDatabase.instance.checkForeignKeyConstraints(), icon: Icon(Icons.restart_alt)),
+                IconButton(onPressed: () {}, icon: Icon(Icons.upload_file)),
+              ],
+            )
           ],
         ),
       ),
@@ -151,28 +192,17 @@ class HomeDrawer extends StatelessWidget {
       elevation: 1,
       child: Padding(
           padding: EdgeInsets.symmetric(
-              vertical: AppValues.paddingHeight * 12,
+              vertical: AppValues.paddingHeight * 30,
               horizontal: AppValues.paddingWidth * 12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Image.asset(
-                    AppImages.appLogo,
-                    height: AppValues.sizeHeight * 50,
-                    width: AppValues.sizeWidth * 60,
-                    fit: BoxFit.fill,
-                  ),
-                  Text(
-                    AppStrings.appName.tr(context),
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic),
-                  )
-                ],
+              Image.asset(
+                AppImages.appLogo,
+                height: AppValues.sizeHeight * 150,
+                width: AppValues.sizeWidth * 150,
+                fit: BoxFit.fill,
               ),
               Divider(),
               SizedBox(
@@ -192,8 +222,8 @@ class HomeDrawer extends StatelessWidget {
                 index: 1,
                 selectedIndex: selectedIndex,
                 fun: fun,
-                name: AppStrings.search.tr(context),
-                iconData: Icons.search_outlined,
+                name: AppStrings.invoices.tr(context),
+                iconData: Icons.receipt,
               ),
               SizedBox(
                 height: AppValues.sizeHeight * 28,
@@ -202,13 +232,13 @@ class HomeDrawer extends StatelessWidget {
                 index: 2,
                 fun: fun,
                 selectedIndex: selectedIndex,
-                name: AppStrings.addNewClient.tr(context),
-                iconData: Icons.add_circle_outline,
+                name: AppStrings.clients.tr(context),
+                iconData: Icons.groups_outlined,
               ),
               SizedBox(
                 height: AppValues.sizeHeight * 28,
               ),
-              CutomDrawerButton(
+              /* CutomDrawerButton(
                 index: 3,
                 fun: fun,
                 selectedIndex: selectedIndex,
@@ -217,15 +247,52 @@ class HomeDrawer extends StatelessWidget {
               ),
               SizedBox(
                 height: AppValues.sizeHeight * 28,
-              ),
+              ),*/
               CutomDrawerButton(
+                index: 3,
+                fun: fun,
+                selectedIndex: selectedIndex,
+                name: AppStrings.tanks.tr(context),
+                iconData: Icons.propane_tank,
+              ),
+              SizedBox(
+                height: AppValues.sizeHeight * 28,
+              ),
+             /* CutomDrawerButton(
                 index: 4,
                 fun: fun,
                 selectedIndex: selectedIndex,
                 name: AppStrings.profile.tr(context),
                 iconData: Icons.person_outlined,
-              ),
+              ),*/
               const Spacer(),
+              Divider(),
+              ListTile(
+                hoverColor: AppColors.primary.withOpacity(0.5),
+                style: ListTileStyle.list,
+                onTap: () => context.navigateAndFinish(screenRoute: Routes.initialRoute),
+                title: Text(AppStrings.logout.tr(context),
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                        fontWeight: FontWeight.w600,
+                        fontSize: AppValues.font * 15,
+                        color: AppColors.blueLight)),
+                trailing: Icon(
+                  Icons.logout_outlined,
+                  color: AppColors.error,
+                ),
+              ),
+              SizedBox(
+                height: AppValues.sizeHeight * 10,
+              ),
+              Divider(),
+              SizedBox(
+                height: AppValues.sizeHeight * 25,
+              ),
+              Text("ALl Rights © ama within 2024",
+                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      fontWeight: FontWeight.w600,
+                      fontSize: AppValues.font * 8,
+                      color: AppColors.blueLight))
             ],
           )),
     );

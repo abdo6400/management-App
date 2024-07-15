@@ -1,23 +1,34 @@
-import '../../../../config/database/local/hive_local_database.dart';
-import '../../../../core/models/client_model.dart';
+import '../../../../config/database/local/sql_local_database.dart';
+import '../../../../core/models/search_client_model.dart';
+import '../models/weekly_client_model.dart';
 
 abstract class SearchLocalDataSource {
-  Future<List<ClientModel>> searchWithFilters(
+  Future<List<WeeklyClientModel>> searchWithFilters(
+      {required Map<String, dynamic> filters});
+  Future<List<SearchClientModel>> searchWithNameAboutClient(
       {required Map<String, dynamic> filters});
 }
 
 class SearchLocalDataSourceImpl extends SearchLocalDataSource {
-  final HiveLocalDatabase _localConsumer;
+  final SqlLocalDatabase _localConsumer;
 
   SearchLocalDataSourceImpl({
-    required HiveLocalDatabase localConsumer,
+    required SqlLocalDatabase localConsumer,
   }) : _localConsumer = localConsumer;
 
   @override
-  Future<List<ClientModel>> searchWithFilters(
+  Future<List<WeeklyClientModel>> searchWithFilters(
       {required Map<String, dynamic> filters}) async {
-    return List<ClientModel>.from(
-        (await _localConsumer.search(filters: filters))
-            .map((e) => ClientModel.fromJson(e)));
+    return List<WeeklyClientModel>.from(
+        (await _localConsumer.searchWithFilters(filters: filters))
+            .map((e) => WeeklyClientModel.fromJson(e)));
+  }
+
+  @override
+  Future<List<SearchClientModel>> searchWithNameAboutClient(
+      {required Map<String, dynamic> filters}) async {
+    return List<SearchClientModel>.from(
+        ((await _localConsumer.searchWithNameAboutClient(filters: filters))
+            .map((e) => SearchClientModel.fromJson(e))));
   }
 }

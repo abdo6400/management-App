@@ -27,7 +27,7 @@ class ThemeCubit extends Cubit<ThemeState> {
 
   Future<void> getThemeMode() async {
     final String? value =await
-        sl<CacheConsumer>().getStringData(key: MySharedKeys.theme.name);
+        sl<CacheConsumer>().getData(key: MySharedKeys.theme.name);
 
     if (value != null && value.compareTo(ThemeMode.dark.name) == 0) {
       currentThemeMode = ThemeMode.dark;

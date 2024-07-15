@@ -8,7 +8,7 @@ import 'package:quickalert/quickalert.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import '../../../features/home/domain/usecases/add_receipt_usecase.dart';
-import '../../../features/home/presentation/bloc/receipt_bloc/recepit_bloc.dart';
+import '../../../features/home/presentation/bloc/blocs/receipt_bloc/recepit_bloc.dart';
 import '../../entities/client.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_strings.dart';
@@ -30,9 +30,6 @@ class ClientCardComponent extends StatelessWidget {
       key: ValueKey(client.id),
       onDismissed: (direction) {},
       confirmDismiss: (direction) async {
-        context
-                      .read<RecepitBloc>()
-                      .add(DeleteReceiptEvent(id: client.id));
         /* QuickAlert.show(
             context: context,
             type: QuickAlertType.confirm,
@@ -47,20 +44,14 @@ class ClientCardComponent extends StatelessWidget {
 
         return Future.value(false);
       },
-      direction:
-          client.clientType.compareTo(AppStrings.importer.toUpperCase()) == 0
-              ? DismissDirection.startToEnd
-              : DismissDirection.endToStart,
+      direction: DismissDirection.startToEnd,
       background: Container(
         color: AppColors.greySoft1,
         padding: EdgeInsets.symmetric(horizontal: AppValues.paddingWidth * 20),
         margin: EdgeInsets.symmetric(
             horizontal: AppValues.marginWidth * 10,
             vertical: AppValues.marginHeight * 10),
-        alignment:
-            client.clientType.compareTo(AppStrings.importer.toUpperCase()) == 0
-                ? Alignment.centerRight
-                : Alignment.centerLeft,
+        alignment: Alignment.centerRight,
         child: Icon(
           Icons.delete,
           color: AppColors.error,
@@ -91,7 +82,7 @@ class ClientCardComponent extends StatelessWidget {
                   .copyWith(fontSize: AppValues.font * 18)),
           leading: CircleAvatar(
             backgroundColor: AppColors.primary,
-            child: Text(client.clientType.toLowerCase().tr(context),
+            child: Text(client.name.toLowerCase().tr(context),
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     fontSize: AppValues.font * 10, color: AppColors.white)),
           ),
@@ -204,8 +195,7 @@ class _infoDialog extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyMedium),
               Text(
                   client.receipts
-                      .sumByDouble((d) =>
-                          d.tanks.values.sumByDouble((s) => double.parse(s)))
+                      .sumByDouble((d) => d.totalQuantity)
                       .toString(),
                   style: Theme.of(context).textTheme.bodyMedium)
             ],
@@ -275,9 +265,9 @@ class ReceiptDataSource extends DataGridSource {
                   columnName: 'time',
                   value: "${e.type.toLowerCase().tr(context)}"),
               DataGridCell<double>(
-                  columnName: 'quantity',
-                  value: e.tanks.values.sumByDouble((s) => double.parse(s))),
-              DataGridCell<String>(columnName: 'bont', value: e.bont),
+                  columnName: 'quantity', value: e.totalQuantity),
+              DataGridCell<String>(
+                  columnName: 'bont', value: e.bont.toString()),
               //  DataGridCell<String>(columnName: 'tankNumber', value: e.tankNumber),
             ]))
         .toList();

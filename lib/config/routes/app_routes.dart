@@ -1,3 +1,4 @@
+import 'package:baraneq/features/auth/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../core/components/basic_screens/main_screen.dart';
@@ -31,10 +32,14 @@ class AppRoutes {
     switch (routeSettings.name) {
       case Routes.initialRoute:
         return PageTransition(
+            child: const LoginScreen(),
+            type: PageTransitionType.fade,
+            settings: routeSettings);
+      case Routes.mainRoute:
+        return PageTransition(
             child: const MainScreen(),
             type: PageTransitionType.fade,
             settings: routeSettings);
-
 
       default:
         return undefinedRoute();

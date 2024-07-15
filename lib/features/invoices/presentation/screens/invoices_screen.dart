@@ -1,10 +1,9 @@
 import 'package:baraneq/config/locale/app_localizations.dart';
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supercharged/supercharged.dart';
 import '../../../../core/components/app_components/client_card_compenent.dart';
-import '../../../../core/components/app_components/options_card_component.dart';
 import '../../../../core/components/default_components/default_message_card.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_strings.dart';
@@ -21,8 +20,8 @@ class InvoicesScreen extends StatelessWidget {
             height: AppValues.screenHeight,
             width: AppValues.screenWidth,
             child: Column(children: [
-              Expanded(
-                flex: 8,
+           /*   Expanded(
+                flex: 10,
                 child: Card(
                   elevation: 0.5,
                   color: AppColors.white,
@@ -46,7 +45,7 @@ class InvoicesScreen extends StatelessWidget {
                     },
                   ),
                 ),
-              ),
+              ),*/
               Expanded(
                   flex: 10,
                   child: BlocBuilder<InvoicesBloc, InvoicesState>(
@@ -67,30 +66,25 @@ class InvoicesScreen extends StatelessWidget {
                         }
 
                         final double exValue = state.clients
-                            .filter((f) =>
-                                f.clientType.compareTo(
-                                    AppStrings.exporter.toUpperCase()) ==
-                                0)
-                            .map((e) => e.receipts.sumByDouble((d) => d
-                                .tanks.values
-                                .sumByDouble((s) => double.parse(s))))
+                            .map((e) => e.receipts
+                                .filter((f) =>
+                                    f.type.compareTo(
+                                        AppStrings.exporter.toUpperCase()) ==
+                                    0)
+                                .sumByDouble((d) => d.totalQuantity))
                             .toList()
                             .sumByDouble((d) => d);
                         final double impValue = state.clients
-                            .filter((f) =>
-                                f.clientType.compareTo(
-                                    AppStrings.importer.toUpperCase()) ==
-                                0)
-                            .map((e) => e.receipts.sumByDouble((d) => d
-                                .tanks.values
-                                .sumByDouble((s) => double.parse(s))))
+                            .map((e) => e.receipts
+                                .filter((f) =>
+                                    f.type.compareTo(
+                                        AppStrings.importer.toUpperCase()) ==
+                                    0)
+                                .sumByDouble((d) => d.totalQuantity))
                             .toList()
                             .sumByDouble((d) => d);
                         return Column(
                           children: [
-                            OptionsCardComponent(
-                              clients: state.clients,
-                            ),
                             Container(
                               margin: EdgeInsets.symmetric(
                                   horizontal: AppValues.marginWidth * 15,

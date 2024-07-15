@@ -17,15 +17,15 @@ class AddClientUsecase implements UseCase<bool, AddClientParams> {
 class AddClientParams {
   final String phone;
   final String name;
-  final String clientType;
+ 
 
   AddClientParams(
       {
       required this.phone,
       required this.name,
-      required this.clientType});
+     });
 
   Map<String, dynamic> toJson() {
-    return {"phone": phone, "name": name, "clientType": clientType};
+    return {"phone": phone, "name": name};
   }
 }

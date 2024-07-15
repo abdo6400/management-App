@@ -1,16 +1,12 @@
 import 'dart:io';
-
-import 'package:baraneq/core/components/default_components/default_appbar.dart';
 import 'package:baraneq/core/utils/app_strings.dart';
-import 'package:baraneq/core/utils/app_values.dart';
-import 'package:baraneq/features/client/presentation/screens/add_client_screen.dart';
+import 'package:baraneq/features/client/presentation/screens/clients_screen.dart';
 import 'package:baraneq/features/invoices/presentation/screens/invoices_screen.dart';
 import 'package:baraneq/features/profile/presentation/screens/profile_screen.dart';
 import 'package:baraneq/features/search/presentation/screens/search_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../../features/home/presentation/screens/home_screen.dart';
-import '../../utils/app_colors.dart';
+import '../../../features/tanks/presentation/screens/tanks_screen.dart';
 import 'mobile_layout.dart';
 import 'windows_layout.dart';
 
@@ -24,19 +20,24 @@ class MainScreen extends StatelessWidget {
       "screen": const HomeScreen()
     },
     {
-      "icon": Icons.search_sharp,
-      "title": AppStrings.search,
-      "screen": const SearchScreen()
-    },
-    {
-      "icon": Icons.add,
-      "title": AppStrings.addNewClient,
-      "screen": const AddClientScreen()
-    },
-    {
       "icon": Icons.receipt,
       "title": AppStrings.invoices,
-      "screen": const InvoicesScreen()
+      "screen": SearchScreen()
+    },
+    /* {
+      "icon": Icons.search_sharp,
+      "title": AppStrings.search,
+      "screen":  SearchScreen()
+    },*/
+    {
+      "icon": Icons.groups_outlined,
+      "title": AppStrings.clients,
+      "screen": const ClientScreen()
+    },
+    {
+      "icon": Icons.propane_tank_outlined,
+      "title": AppStrings.tanks,
+      "screen": const TanksScreen()
     },
     {
       "icon": Icons.person,
@@ -47,8 +48,6 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    
     return Platform.isAndroid || Platform.isIOS
         ? MobileLayout(screens: _screens)
         : WindowsLayout(

@@ -12,7 +12,7 @@ class ProfileInitial extends ProfileState {}
 class ProfileLoadingState extends ProfileState {}
 
 class ProfileLoadedState extends ProfileState {
-  final Map<String, double> tanks;
+  final  List<Map<String, dynamic>> tanks;
 
   ProfileLoadedState({required this.tanks});
 }

@@ -68,7 +68,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
                     vertical: AppValues.paddingHeight * 15,
                   ),
                   child: CircleAvatar(
-                    backgroundColor: AppColors.blueDarK,
+                    backgroundColor: AppColors.greenDarK,
                     child: Text(
                       (AppLocalizations.of(context)!.isEnLocale
                           ? AppStrings.arabicCode

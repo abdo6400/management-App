@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
 import 'app_localizations.dart';
 
 class AppLocalizationsSetup {
   static const Iterable<Locale> supportedLocales = [
     Locale('en'),
-    Locale('ar'), 
+    Locale('ar'),
   ];
 
   static const Iterable<LocalizationsDelegate<dynamic>> localizationsDelegates =
@@ -15,7 +16,8 @@ class AppLocalizationsSetup {
     GlobalMaterialLocalizations.delegate,
     GlobalWidgetsLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
-    DefaultCupertinoLocalizations.delegate
+    DefaultCupertinoLocalizations.delegate,
+    SfGlobalLocalizations.delegate
   ];
 
   static Locale? localeResolutionCallback(

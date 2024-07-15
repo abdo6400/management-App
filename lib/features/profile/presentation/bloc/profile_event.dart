@@ -7,4 +7,4 @@ abstract class ProfileEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetTanksEvent extends ProfileEvent {}
+
